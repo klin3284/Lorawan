@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -59,11 +61,12 @@
 		1B31E65B2BA9231700C5F65B /* Wancer */ = {
 			isa = PBXGroup;
 			children = (
+				1B31E6622BA9231A00C5F65B /* Preview Content */,
 				4F82642C2BAA11DD001D13DF /* Models */,
+				1B31E6602BA9231A00C5F65B /* Assets.xcassets */,
+				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
 				1B31E65C2BA9231700C5F65B /* WancerApp.swift */,
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
-				1B31E6602BA9231A00C5F65B /* Assets.xcassets */,
-				1B31E6622BA9231A00C5F65B /* Preview Content */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				4F8264302BAA11F9001D13DF /* User.swift in Sources */,
 				4F8264322BAA1206001D13DF /* UserGroup.swift in Sources */,
 				4F82642E2BAA11F2001D13DF /* Message.swift in Sources */,
+				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,

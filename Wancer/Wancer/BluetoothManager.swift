@@ -12,8 +12,6 @@ class BluetoothManager: NSObject, ObservableObject {
     @Published var connectedPeripheral: CBPeripheral? = nil
     @Published var characteristics = [CBCharacteristic]()
     
-    @Published var chatHistory = [DemoMessage]()
-    
     private var centralManager: CBCentralManager!
     
     override init() {
@@ -33,10 +31,6 @@ class BluetoothManager: NSObject, ObservableObject {
         if ((connectedPeripheral?.canSendWriteWithoutResponse) != nil) {
             self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
         }
-    }
-    
-    func appendToChat(_ value: DemoMessage) {
-        chatHistory.append(value)
     }
     
     func subscribeToNotifications(peripheral: CBPeripheral, characteristic: CBCharacteristic) {
@@ -137,7 +131,6 @@ extension BluetoothManager: CBPeripheralDelegate {
         guard let value = characteristic.value else {
             return
         }
-        self.appendToChat(DemoMessage(text: String(decoding: value, as: UTF8.self), selfAuthor: false))
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
