@@ -10,17 +10,20 @@ import SwiftData
 
 @Model
 class Message: Identifiable {
+    @Attribute(.unique)
     var id: Int
     var text: String
     var createdAt: Date
-    var author: Int
+    var author: User
     var seen: Bool
+    var group: Group
     
-    init(id: Int, text: String, createdAt: Date, author: Int, seen: Bool) {
+    init(id: Int, text: String, createdAt: Date, author: User, seen: Bool, group: Group) {
         self.id = id
         self.text = text
         self.createdAt = createdAt
         self.author = author
         self.seen = seen
+        self.group = group
     }
 }
