@@ -12,8 +12,11 @@ import SwiftData
 class User: Identifiable {
     @Attribute(.unique)
     var id: Int
+    
     var firstName: String
+    
     var lastName: String
+    
     @Relationship(inverse: \Group.users)
     var groups: [Group]
     
@@ -22,6 +25,18 @@ class User: Identifiable {
         self.firstName = firstName
         self.lastName = lastName
         self.groups = groups
+    }
+    
+    func addGroups(_ group: Group) {
+        self.groups.append(group)
+    }
+    
+    func changeFirstName(_ firstName: String) {
+        self.firstName = firstName
+    }
+    
+    func changeLastName(_ lastName: String) {
+        self.lastName = lastName
     }
 }
 

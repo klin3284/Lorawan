@@ -14,7 +14,6 @@
 		1B31E6642BA9231A00C5F65B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */; };
 		4F82642E2BAA11F2001D13DF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642D2BAA11F2001D13DF /* Message.swift */; };
 		4F8264302BAA11F9001D13DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642F2BAA11F9001D13DF /* User.swift */; };
-		4F8264322BAA1206001D13DF /* UserGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8264312BAA1206001D13DF /* UserGroup.swift */; };
 		4F8264342BAA120D001D13DF /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8264332BAA120D001D13DF /* Group.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4F82642D2BAA11F2001D13DF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4F82642F2BAA11F9001D13DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		4F8264312BAA1206001D13DF /* UserGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGroup.swift; sourceTree = "<group>"; };
 		4F8264332BAA120D001D13DF /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,7 +82,6 @@
 			children = (
 				4F82642D2BAA11F2001D13DF /* Message.swift */,
 				4F82642F2BAA11F9001D13DF /* User.swift */,
-				4F8264312BAA1206001D13DF /* UserGroup.swift */,
 				4F8264332BAA120D001D13DF /* Group.swift */,
 			);
 			path = Models;
@@ -161,7 +158,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F8264302BAA11F9001D13DF /* User.swift in Sources */,
-				4F8264322BAA1206001D13DF /* UserGroup.swift in Sources */,
 				4F82642E2BAA11F2001D13DF /* Message.swift in Sources */,
 				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
@@ -300,7 +296,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = DM88MAB4YF;
+				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -314,7 +310,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1233;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -330,7 +326,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = DM88MAB4YF;
+				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -344,7 +340,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer123;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1233;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
