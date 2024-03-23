@@ -4,10 +4,7 @@ import SwiftData
 struct ChatView: View {
   @EnvironmentObject var user: User // Inject the current user
   @StateObject var viewModel: ChatViewModel // View model for chat data
-  @State private var groupId: Int
     
-    
-  
   var body: some View {
     VStack(spacing: 16) {
       HStack {
@@ -59,14 +56,9 @@ class ChatViewModel: ObservableObject {
   @Published var contactName: String = ""
   @Published var messages: [Message] = []
   @Published var newMessageText: String = ""
-  
+    @Environment(\.modelContext) private var modelContext
+
   let groupId: Int
-    
-    @Query(
-        filter: #Predicate <Group> {$0.id == groupId}
-    )
-    var group: Group
-    
   
   init(groupId: Int) {
     self.groupId = groupId
@@ -74,12 +66,16 @@ class ChatViewModel: ObservableObject {
   }
   
   func loadMessages() {
-    // fetch messages for the group ID
+      @Query(
+          filter: #Predicate <Group> {$0.id == groupId}
+      )
+      var group: Group
   }
   
   func sendMessage() {
     // Create and save a new message
-      
+      let newMessage: Message
+      modelContext.insert(newMessage)
   }
   
   private func fetchContactName() {
