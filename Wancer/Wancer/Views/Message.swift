@@ -64,14 +64,13 @@ class ChatViewModel: ObservableObject {
     fetchContactName()
   }
   
-  func loadMessages() { 
+  func loadMessages() {
     // fetch messages for the group ID
-
   }
   
   func sendMessage() {
     // Create and save a new message
-
+      
   }
   
   private func fetchContactName() {
@@ -79,3 +78,4 @@ class ChatViewModel: ObservableObject {
 
   }
 }
+
