@@ -23,7 +23,7 @@ struct ChatView: View {
       HStack(spacing: 16) {
         TextField("Type your message", text: $viewModel.newMessageText)
         Button(action: {
-          viewModel.sendMessage()
+          viewModel.sendMessage() // to do
         }) {
           Image(systemName: "paperplane.fill")
             .foregroundColor(.blue)
@@ -51,36 +51,36 @@ struct BubbleView: View {
       .frame(alignment: message.author.id == user.id ? .trailing : .leading)
   }
 }
-
 class ChatViewModel: ObservableObject {
-  @Published var contactName: String = ""
-  @Published var messages: [Message] = []
-  @Published var newMessageText: String = ""
-    @Environment(\.modelContext) private var modelContext
+    @Published var contactName: String = ""
+    @Published var messages: [Message] = []
+    @Published var newMessageText: String = ""
+    @Query private var group: [Group]
+    
+    private var currentGroup: Group?
+    
+    init(groupId: Int) {
+        self.currentGroup = group.first(where: { $0.id == groupId }) ?? nil
+        fetchContactName()
+    }
 
-  let groupId: Int
-  
-  init(groupId: Int) {
-    self.groupId = groupId
-    fetchContactName()
-  }
-  
-  func loadMessages() {
-      @Query(
-          filter: #Predicate <Group> {$0.id == groupId}
-      )
-      var group: Group
-  }
-  
-  func sendMessage() {
-    // Create and save a new message
-      let newMessage: Message
-      modelContext.insert(newMessage)
-  }
-  
-  private func fetchContactName() {
-    // fetch the contact name for the group
-
-  }
+    func loadMessages() -> [Message] {
+        if let currentGroup {
+            return currentGroup.messages
+        }
+        return []
+    }
+    
+    func sendMessage(text: String) {
+        // TODO: Redo the paramaters to create a new Message and add
+    }
+    
+    private func fetchContactName() -> [User] {
+        if let currentGroup {
+            return currentGroup.users
+        }
+        return []
+        
+    }
 }
 
