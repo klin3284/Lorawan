@@ -119,8 +119,6 @@ extension BluetoothManager: CBPeripheralDelegate {
         }
         self.characteristics.append(contentsOf: characteristics)
         self.subscribeToNotifications(peripheral: peripheral, characteristic: self.characteristics[0])
-        print (self.characteristics)
-        
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
@@ -128,9 +126,10 @@ extension BluetoothManager: CBPeripheralDelegate {
             print("Failed to update value: \(error.localizedDescription)")
             return
         }
-        guard characteristic.value != nil else {
+        guard let value = characteristic.value else {
             return
         }
+        self.handleMessage(value)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: Error?) {
@@ -138,5 +137,56 @@ extension BluetoothManager: CBPeripheralDelegate {
             print("Failed to update notification state: \(error.localizedDescription)")
             return
         }
+    }
+}
+
+extension BluetoothManager {
+    func handleMessage(_ message: Data) {
+        let decodedMessage = String(decoding: message, as: UTF8.self)
+        var signal: Signal? = nil
+        
+        switch String(decodedMessage.prefix(5)) {
+        case Constants.MESSAGE_TYPE:
+            print("Message")
+            signal = MessageSignal(groupId: decodedMessage[5..<25], messageId: decodedMessage[25..<45], senderNumber: decodedMessage[45..<55], text: decodedMessage[55..<255])
+            break
+            
+        case Constants.INVITATION_TYPE:
+            print("Invitation")
+            signal = InvitationSignal(groupId: decodedMessage[5..<25], memberNumbers: decodedMessage[25..<125].splitIntoNCharacterStrings(10), senderNumber: decodedMessage[125..<135])
+            break
+            
+        case Constants.ACCEPTATION_TYPE:
+            print("Acceptation")
+            signal = AcceptationSignal(groupId:decodedMessage[5..<25], senderNumber: decodedMessage[25..<35])
+            break
+            
+        case Constants.DELIVERED_TYPE:
+            print("Delivered")
+            signal = DeliveredSignal(groupId:decodedMessage[5..<25], messageId: decodedMessage[25..<45], senderNumber: decodedMessage[45..<55])
+            break
+            
+        case Constants.NAVIGATION_TYPE:
+            print("Navigation")
+            signal = NavigationSignal(groupId:decodedMessage[5..<25], messageId: decodedMessage[25..<45], senderNumber: decodedMessage[45..<55], location: decodedMessage[55..<75])
+            break
+            
+        case Constants.SOS_TYPE:
+            print("SOS")
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            if let dateToString = dateFormatter.date(from: decodedMessage[45..<65]) {
+                signal = SosSignal(name: decodedMessage[5..<35], senderNumber: decodedMessage[35..<45], createdAt: dateToString, location: decodedMessage[65..<85], text: decodedMessage[85..<255])
+            }
+            break
+            
+        default:
+            return
+        }
+        
+        if let signal {
+            signal.handleSignal()
+        }
+        return
     }
 }

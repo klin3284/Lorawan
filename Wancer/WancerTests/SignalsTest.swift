@@ -7,7 +7,7 @@
 
 import XCTest
 
-class Signals: XCTestCase {
+class SignalsTest: XCTestCase {
 
     func randomDigitsString(ofLength length: Int) -> String {
         var result = ""
@@ -59,7 +59,7 @@ class Signals: XCTestCase {
         let groupId = randomDigitsString(ofLength: 20)
         let messageId = randomDigitsString(ofLength: 20)
         let senderId = randomDigitsString(ofLength: 10)
-        let messageCount = Int.random(in: 1..<255)
+        let messageCount = Int.random(in: 1..<200)
         let text = randomDigitsString(ofLength: messageCount)
         
         let sut = MessageSignal(groupId: groupId, messageId: messageId, senderNumber: senderId, text: text)
@@ -94,7 +94,7 @@ class Signals: XCTestCase {
         let sut = DeliveredSignal(groupId: groupId, messageId: messageId, senderNumber: senderId)
         
         let actual = sut.buildString()
-        let expected = Constants.DELIVERED_TYPE + groupId + messageId + senderId + String(repeating: " ", count: 210)
+        let expected = Constants.DELIVERED_TYPE + groupId + messageId + senderId + String(repeating: " ", count: 200)
         
         XCTAssertEqual(actual, expected)
         XCTAssertEqual(actual.count, 255)
@@ -104,18 +104,20 @@ class Signals: XCTestCase {
         let nameCount = Int.random(in: 1..<30)
         let name = randomDigitsString(ofLength: nameCount)
         let senderId = randomDigitsString(ofLength: 10)
-        let time = Date.now
+        let time = Date()
         let location = randomDigitsString(ofLength: 20)
-        let messageCount = Int.random(in: 1..<255)
+        let messageCount = Int.random(in: 1..<170)
         let text = randomDigitsString(ofLength: messageCount)
         
         let sut = SosSignal(name: name, senderNumber: senderId, createdAt: time, location: location, text: text)
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateToString = dateFormatter.string(from: time)
+        XCTAssertEqual(dateToString.count, 19)
         
         let actual = sut.buildString()
-        let expected = Constants.SOS_TYPE + name + String(repeating: " ", count: 30 - nameCount) + senderId + dateFormatter.string(from: time) + "  " + location + text + String(repeating: " ", count: 175 - messageCount)
+        let expected = Constants.SOS_TYPE + name + String(repeating: " ", count: 30 - nameCount) + senderId + dateToString + " " + location + text + String(repeating: " ", count: 170 - messageCount)
         
         XCTAssertEqual(actual, expected)
         XCTAssertEqual(actual.count, 255)
