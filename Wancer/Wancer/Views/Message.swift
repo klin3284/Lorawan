@@ -4,6 +4,9 @@ import SwiftData
 struct ChatView: View {
   @EnvironmentObject var user: User // Inject the current user
   @StateObject var viewModel: ChatViewModel // View model for chat data
+  @State private var groupId: Int
+    
+    
   
   var body: some View {
     VStack(spacing: 16) {
@@ -58,6 +61,12 @@ class ChatViewModel: ObservableObject {
   @Published var newMessageText: String = ""
   
   let groupId: Int
+    
+    @Query(
+        filter: #Predicate <Group> {$0.id == groupId}
+    )
+    var group: Group
+    
   
   init(groupId: Int) {
     self.groupId = groupId
