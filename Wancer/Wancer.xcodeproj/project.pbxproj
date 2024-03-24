@@ -14,6 +14,7 @@
 		1B2CF5CB2BAE9E890070F423 /* SignalsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */; };
 		1B2CF5CC2BAE9E9A0070F423 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B72BAE70500070F423 /* Signals.swift */; };
 		1B2CF5CD2BAF379C0070F423 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* Constants.swift */; };
+		1B2CF5D32BAFF53B0070F423 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5D22BAFF53B0070F423 /* InstructionsView.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 		1B2CF5B92BAE7B990070F423 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTest.swift; sourceTree = "<group>"; };
 		1B2CF5C22BAE9E7F0070F423 /* WancerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WancerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B2CF5D22BAFF53B0070F423 /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
 				1B2CF5B32BAE6AA50070F423 /* Constants.swift */,
 				1B2CF5B92BAE7B990070F423 /* StringUtil.swift */,
+				1B2CF5D22BAFF53B0070F423 /* InstructionsView.swift */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
+				1B2CF5D32BAFF53B0070F423 /* InstructionsView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				1B2CF5BA2BAE7B990070F423 /* StringUtil.swift in Sources */,
 			);
