@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */; };
+		1B2CF5D52BB005650070F423 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5D42BB005650070F423 /* InstructionsView.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 
 /* Begin PBXFileReference section */
 		1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		1B2CF5D42BB005650070F423 /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +42,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B2CF5D62BB005690070F423 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1B31E6502BA9231700C5F65B = {
 			isa = PBXGroup;
 			children = (
@@ -65,6 +75,7 @@
 				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
 				1B31E65C2BA9231700C5F65B /* WancerApp.swift */,
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
+				1B2CF5D62BB005690070F423 /* Views */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -161,6 +172,7 @@
 				4F82642E2BAA11F2001D13DF /* Message.swift in Sources */,
 				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
+				1B2CF5D52BB005650070F423 /* InstructionsView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 			);
