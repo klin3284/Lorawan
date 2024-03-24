@@ -5,7 +5,8 @@
 //  Created by Kenny Lin on 3/22/24.
 //
 
-import Foundation
+import SwiftUI
+import SwiftData
 
 public func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
     var message = prefix
@@ -23,6 +24,18 @@ public func signalStringBuilder(prefix: String, fields: [(field: String, maxLeng
 
 
 class Signal {
+    @Query private var groups: [Group]
+    @Query private var users: [User]
+    @Environment(\.modelContext) var modelContext
+    
+    func fetchGroup(with id: String) -> Group? {
+        return groups.first(where: {$0.id == Int(id)})
+    }
+    
+    func fetchUser(with id: String) -> User? {
+        return users.first(where: {$0.id == Int(id)})
+    }
+    
     func handleSignal() {}
     
     func buildString() -> String {
@@ -85,7 +98,11 @@ class MessageSignal: CommunicationSignal {
     }
     
     override func handleSignal() {
-        // TODO: add message to db
+        if let groupFound = self.fetchGroup(with: groupId),
+           let userFound = self.fetchUser(with: senderNumber),
+           let messageFound = Int(messageId) {
+            modelContext.insert(Message(id: messageFound, text: text, createdAt: Date(), author: userFound, seen: false, group: groupFound))
+        }
     }
     
     override func buildString() -> String {
