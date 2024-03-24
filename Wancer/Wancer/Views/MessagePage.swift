@@ -5,7 +5,7 @@ struct ChatView: View {
     @EnvironmentObject var user: User
     //  @StateObject var viewModel: ChatViewModel // View model for chat data
     @State private var newMessageText: String = ""
-    @State private var messages: [Message] = []
+    @State private var messages: [String] = []
     
     var body: some View {
         VStack(spacing: 16) {
@@ -29,6 +29,25 @@ struct ChatView: View {
             
             Spacer()
             
+            List {
+                ForEach(messages, id: \.self) { message in
+                    HStack {
+                        Spacer()
+                        Text(message)
+                            .padding(8)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(alignment: .trailing)
+                            }
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowSeparator(.hidden)
+                }
+            }
+            .listStyle(PlainListStyle())
+            .frame(maxHeight: .infinity)
+            
             //      List(viewModel.messages) { message in
             //        BubbleView(message: message, user: user)
             //      }
@@ -37,13 +56,14 @@ struct ChatView: View {
             
             HStack(spacing: 16) {
                 TextField("Type your message", text: $newMessageText)
+                // $viewModel.newMessageText 
                     .disableAutocorrection(true)
                     .padding(8)
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(12)
                 
                 Button(action: {
-                    // viewModel.sendMessage() to do
+                    sendMessage()
                 }) {
                     Image(systemName: "paperplane.fill")
                         .foregroundColor(.blue)
@@ -56,6 +76,11 @@ struct ChatView: View {
             // viewModel.loadMessages()
         }
     }
+    func sendMessage() {
+        guard !newMessageText.isEmpty else { return }
+        messages.append(newMessageText)
+        newMessageText = ""
+    }
 
 }
 
@@ -66,11 +91,11 @@ struct BubbleView: View {
   var body: some View {
     Text(message.text)
       .padding()
-      .background(message.author.id == user.id ? Color.blue : Color.gray)
-      .foregroundColor(message.author.id == user.id ? .white : .black)
+      .background(Color.blue)
+      .foregroundColor(.white)
       .cornerRadius(10)
       .fixedSize(horizontal: false, vertical: true)
-      .frame(alignment: message.author.id == user.id ? .trailing : .leading)
+      .frame(alignment: .trailing)
   }
 }
 class ChatViewModel: ObservableObject {
@@ -93,8 +118,9 @@ class ChatViewModel: ObservableObject {
         return []
     }
     
-    func sendMessage(text: String) {
-        // TODO: Redo the paramaters to create a new Message and add
+    func sendMessage(text: String, user: User) {
+//        var msg : Message = Message(id: user.id, text: text, createdAt: Date.now, author: user, seen: false, group: currentGroup)
+//        messages.append(msg)
     }
     
     private func fetchContactName() -> [User] {
