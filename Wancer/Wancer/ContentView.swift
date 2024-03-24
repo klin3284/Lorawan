@@ -10,6 +10,7 @@ import SwiftData
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
+    @StateObject private var bluetoothManager = BluetoothManager()
     
     @Query private var users: [User]
     @Query private var groups: [Group]
