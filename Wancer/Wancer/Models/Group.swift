@@ -13,10 +13,13 @@ import SwiftData
 class Group: Identifiable {
     @Attribute(.unique)
     var id: Int
+    
     var name: String
+    
     @Relationship(deleteRule: .nullify)
     var users: [User]
-    @Relationship(deleteRule: .cascade, inverse: \Message.group)
+    
+    @Relationship(deleteRule: .cascade)
     var messages: [Message]
     
     init(id: Int, name: String, users: [User], messages: [Message]) {
@@ -30,14 +33,14 @@ class Group: Identifiable {
         users.append(user)
     }
     
+    func addMessage(_ message: Message) {
+        messages.append(message)
+    }
+    
     func removeUser(_ user: User) {
         if let index = users.firstIndex(where: { $0.id == user.id }) {
             users.remove(at: index)
         }
-    }
-    
-    func addMessage(_ message: Message) {
-        messages.append(message)
     }
 }
 

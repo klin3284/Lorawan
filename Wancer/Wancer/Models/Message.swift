@@ -12,10 +12,15 @@ import SwiftData
 class Message: Identifiable {
     @Attribute(.unique)
     var id: Int
+    
     var text: String
+    
     var createdAt: Date
+    
     var author: User
+    
     var seen: Bool
+    
     var group: Group
     
     init(id: Int, text: String, createdAt: Date, author: User, seen: Bool, group: Group) {
