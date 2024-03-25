@@ -28,7 +28,10 @@ struct MeContactView: View {
                 }
                 Section {
                     Button("Save") {
-                        checkUser(phoneNumber: phoneNumber, users: users)
+                        checkUser(phoneNumber: phoneNumber)
+                        if let phoneNum = getMePhoneNumber() {
+                            print(phoneNum)
+                        }
                     }
                 }
             }
@@ -36,17 +39,31 @@ struct MeContactView: View {
         }
     }
     
-    func checkUser(phoneNumber: String, users: [User]) {
-        // UserDefaults.standard.set(phoneNumber, forKey: "mePhoneNumber")
+    func getMePhoneNumber() -> String? {
+        return UserDefaults.standard.string(forKey: "mePhoneNumber")
+    }
+    
+//    func fetchUser(withId id: Int) -> User? {
+//        // Perform the fetch using a model context - this is a placeholder
+//        // You need to replace 'modelContext.fetch()' with the actual method call
+//        guard let user = modelContext.fetch(FetchDescriptor<User>(predicate: Predicate<User> { $0.id == id })).first else {
+//            print("User not found")
+//            return nil
+//        }
+//        return user
+//    }
+    
+    func checkUser(phoneNumber: String) {
+        UserDefaults.standard.set(phoneNumber, forKey: "mePhoneNumber")
         // Convert the phone number string to an integer since your user IDs are integers
-        if let phoneNumberAsInt = Int(phoneNumber) {
-            if  users.contains(where: { $0.id == phoneNumberAsInt }) {
-                UserDefaults.standard.set(phoneNumber, forKey: "mePhoneNumber")
-                print("User verified and phone number saved as 'me' user.")
-            } else {
-                print("No user found with this phone number.")
-            }
-        }
+//        if let phoneNumberAsInt = Int(phoneNumber) {
+//            if let user = fetchUser(withId: Int(phoneNumberAsInt)) {
+//                UserDefaults.standard.set(phoneNumber, forKey: "mePhoneNumber")
+//                print("User verified and phone number saved as 'me' user.")
+//            } else {
+//                print("No user found with this phone number.")
+//            }
+//        }
     }
     
     func saveContact() {
