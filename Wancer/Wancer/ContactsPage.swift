@@ -4,16 +4,16 @@
 //
 //  Created by Ankit Amonkar on 3/20/24.
 //
-
+ 
 import SwiftUI
 import SwiftData
 import ContactsUI
 import Foundation
 import Contacts
-
+ 
 struct Tooltip: View {
     let text: String
-
+ 
     var body: some View {
         Text(text)
             .padding(EdgeInsets(top: 5, leading: 10, bottom: 5, trailing: 10))
@@ -23,12 +23,12 @@ struct Tooltip: View {
             .shadow(radius: 4)
     }
 }
-
+ 
 // Define a separate button component to handle each user
 struct ContactButton: View {
     let user: User
     @State private var isShowingTooltip = false // Separate state for each button
-
+ 
     var body: some View {
         Button(action: {
             self.isShowingTooltip = true // Toggle tooltip visibility
@@ -41,8 +41,8 @@ struct ContactButton: View {
         }
     }
 }
-
-
+ 
+ 
 struct ContactsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var users: [User] = []
@@ -66,7 +66,7 @@ struct ContactsView: View {
             }
         }
     }
-
+ 
     
     func fetchAllContacts(completion: @escaping ([CNContact]?, Error?) -> Void) {
         let store = CNContactStore()
@@ -97,30 +97,25 @@ struct ContactsView: View {
             }
         }
     }
-
+ 
     func insertContactsIntoDatabase(_ contacts: [CNContact]) {
-        var meContact: CNContact?
         // Insert fetched contacts into SQLite database
         for contact in contacts {
-            if contact.isKeyAvailable(CNContactPhoneNumbersKey), contact.phoneNumbers.contains(where: { $0.label == CNLabelPhoneNumberiPhone }) {
-                meContact = contact
-            }
             if let firstPhoneNumber = contact.phoneNumbers.first {
                 let regex = try! NSRegularExpression(pattern: "[-]", options: .caseInsensitive)
-                let phoneNumber = regex.stringByReplacingMatches(in: firstPhoneNumber.value.stringValue, options: [], range: NSRange(location: 0, length: firstPhoneNumber.value.stringValue.count), withTemplate: "")
+                let fullPhoneNumber = regex.stringByReplacingMatches(in: firstPhoneNumber.value.stringValue, options: [], range: NSRange(location: 0, length: firstPhoneNumber.value.stringValue.count), withTemplate: "")
+                 
+                // Extract the last 10 digits
+                let phoneNumber = String(fullPhoneNumber.suffix(10))
                 let newUser = User(id: Int(phoneNumber) ?? 0, firstName: contact.givenName, lastName: contact.familyName, groups: [])
                 
                 if(newUser.id != 0) {
                     modelContext.insert(newUser)
                 }
-//                if(newUser.id == Int((meContact?.phoneNumbers.first!.value.stringValue)!)) {
-//                    newUser.firstName = "ME"
-//                    modelContext.insert(newUser)
-//                }
             }
         }
     }
-
+ 
     func fetchAllContactsAndInsertIntoDatabase() {
         fetchAllContacts { fetchedContacts, error in
             if let fetchedContacts = fetchedContacts {
@@ -131,37 +126,5 @@ struct ContactsView: View {
                 print("Error fetching contacts: \(error)")
             }
         }
-    }
-    
-    func fetchMeContact() -> CNContact? {
-        let store = CNContactStore()
-        
-        // Fetch all contacts
-        let keysToFetch = [CNContactPhoneNumbersKey as CNKeyDescriptor, CNContactGivenNameKey as CNKeyDescriptor, CNContactFamilyNameKey as CNKeyDescriptor]
-        let fetchRequest = CNContactFetchRequest(keysToFetch: keysToFetch)
-        
-        var meContact: CNContact?
-        do {
-            try store.enumerateContacts(with: fetchRequest) { contact, stop in
-                if contact.isKeyAvailable(CNContactPhoneNumbersKey), contact.phoneNumbers.contains(where: { $0.label == CNLabelPhoneNumberiPhone }) {
-                    meContact = contact
-                    stop.pointee = true
-                }
-            }
-        } catch {
-            print("Error fetching contacts: \(error)")
-        }
-        
-        if let firstPhoneNumber = meContact?.phoneNumbers.first {
-            let regex = try! NSRegularExpression(pattern: "[-]", options: .caseInsensitive)
-            let phoneNumber = regex.stringByReplacingMatches(in: firstPhoneNumber.value.stringValue, options: [], range: NSRange(location: 0, length: firstPhoneNumber.value.stringValue.count), withTemplate: "")
-            let newUser = User(id: Int(phoneNumber) ?? 0, firstName: meContact!.givenName, lastName: meContact!.familyName, groups: [])
-            
-            if(newUser.id != 0) {
-                modelContext.insert(newUser)
-            }
-        }
-       
-        return meContact
     }
 }
