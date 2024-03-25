@@ -12,6 +12,9 @@ struct WancerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .modelContainer(for: User.self)
+                .modelContainer(for: Group.self)
+                .modelContainer(for: Message.self)
         }
     }
 }

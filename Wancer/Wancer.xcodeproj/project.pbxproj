@@ -10,6 +10,7 @@
 		0B5944DE2BABAB9E004FB729 /* ContactsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */; };
 		0B5944E02BB13DE8004FB729 /* MeContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5944DF2BB13DE8004FB729 /* MeContactView.swift */; };
 		1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */; };
+		1B2CF5D52BB005650070F423 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5D42BB005650070F423 /* InstructionsView.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 		0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPage.swift; sourceTree = "<group>"; };
 		0B5944DF2BB13DE8004FB729 /* MeContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeContactView.swift; sourceTree = "<group>"; };
 		1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
+		1B2CF5D42BB005650070F423 /* InstructionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +46,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1B2CF5D62BB005690070F423 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		1B31E6502BA9231700C5F65B = {
 			isa = PBXGroup;
 			children = (
@@ -71,6 +81,7 @@
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
 				0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */,
 				0B5944DF2BB13DE8004FB729 /* MeContactView.swift */,
+				1B2CF5D62BB005690070F423 /* Views */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -168,6 +179,7 @@
 				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				0B5944DE2BABAB9E004FB729 /* ContactsPage.swift in Sources */,
+				1B2CF5D52BB005650070F423 /* InstructionsView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				0B5944E02BB13DE8004FB729 /* MeContactView.swift in Sources */,
@@ -304,7 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = 239RSG338X;
+				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "App needs to access bluetooth";
@@ -321,7 +333,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1230;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1233;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -337,7 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = 239RSG338X;
+				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "App needs to access bluetooth";
@@ -354,7 +366,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1230;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancer1233;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

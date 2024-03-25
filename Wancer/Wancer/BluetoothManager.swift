@@ -128,7 +128,7 @@ extension BluetoothManager: CBPeripheralDelegate {
             print("Failed to update value: \(error.localizedDescription)")
             return
         }
-        guard let value = characteristic.value else {
+        guard characteristic.value != nil else {
             return
         }
     }
