@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B5944DE2BABAB9E004FB729 /* ContactsPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */; };
+		0B5944E02BB13DE8004FB729 /* MeContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5944DF2BB13DE8004FB729 /* MeContactView.swift */; };
 		1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsPage.swift; sourceTree = "<group>"; };
+		0B5944DF2BB13DE8004FB729 /* MeContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeContactView.swift; sourceTree = "<group>"; };
 		1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				1B31E65C2BA9231700C5F65B /* WancerApp.swift */,
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
 				0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */,
+				0B5944DF2BB13DE8004FB729 /* MeContactView.swift */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -167,6 +170,7 @@
 				0B5944DE2BABAB9E004FB729 /* ContactsPage.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
+				0B5944E02BB13DE8004FB729 /* MeContactView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

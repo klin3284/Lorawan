@@ -11,36 +11,6 @@ import ContactsUI
 import Foundation
 import Contacts
 
-struct ContactRow: View {
-    let contact: CNContact
-    @State private var isHovered = false
-    
-    var body: some View {
-        HStack {
-            Text("\(contact.givenName) \(contact.familyName)")
-                .padding()
-                .background(isHovered ? Color.gray : Color.clear)
-                .onHover { hovering in
-                    self.isHovered = hovering
-                }
-            // Additional information about the contact can be displayed here
-            if isHovered {
-                VStack(alignment: .leading) {
-                    Text("Phone: \(contact.phoneNumbers.first?.value.stringValue ?? "")")
-                    // Add more details as needed
-                }
-                .padding()
-                .background(Color.white)
-                .foregroundColor(Color.black)
-                .cornerRadius(8)
-                .shadow(radius: 4)
-                .offset(y: -30) // Adjust tooltip position as needed
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
 struct Tooltip: View {
     let text: String
 
@@ -55,25 +25,22 @@ struct Tooltip: View {
 }
 
 // Define a separate button component to handle each user
-    struct ContactButton: View {
-        let user: User
-        @State private var isShowingTooltip = false // Separate state for each button
+struct ContactButton: View {
+    let user: User
+    @State private var isShowingTooltip = false // Separate state for each button
 
-        var body: some View {
-            Button(action: {
-                self.isShowingTooltip.toggle() // Toggle tooltip visibility
-            }) {
-                Text("\(user.firstName) \(user.lastName)")
-            }
-            .onTapGesture {
-                self.isShowingTooltip = false // Hide tooltip on tap
-            }
-            .overlay(
-                Tooltip(text: "Phone: \(user.id)")
-                    .opacity(isShowingTooltip ? 1.0 : 0.0)
-            )
+    var body: some View {
+        Button(action: {
+            self.isShowingTooltip = true // Toggle tooltip visibility
+        }) {
+            Text("\(user.firstName) \(user.lastName)")
+        }
+        .alert(isPresented: $isShowingTooltip) {
+            Alert(title: Text(String(user.id)),
+                  dismissButton: .default(Text("OK")))
         }
     }
+}
 
 
 struct ContactsView: View {
@@ -97,35 +64,6 @@ struct ContactsView: View {
             List(users) { user in
                 ContactButton(user: user)
             }
-            //         ZStack {
-            //             Button("add contacts") {
-            //                 ForEach(fetchAllContactsAndInsertIntoDatabase(), id: \.self) { contact in
-            //                     Text(contact.firstName + contact.lastName) {
-            //    //             if let meContact = fetchMeContact() {
-            //    //                 meContact.givenName
-            //    //             }
-            //             }
-            //             .buttonStyle(DefaultButtonStyle())
-            //             .onHover { hovering in
-            //                 self.isHovering = hovering
-            //             }
-            //
-            //             if isHovering {
-            //                 Tooltip(text: user.firstName + user.lastName + String(user.id))
-            //                     .frame(width: 120, height: 40)
-            //                     .background(Color.black)
-            //                     .foregroundColor(Color.white)
-            //                     .cornerRadius(8)
-            //                     .offset(x: 0, y: -50) // Adjust tooltip position as needed
-            //             }
-            //         }
-            //         .padding()
-//            
-//            List {
-//                ForEach (users) {user in
-//                    Text(user.firstName + user.lastName + String(user.id))
-//                }
-//            }
         }
     }
 
@@ -194,20 +132,6 @@ struct ContactsView: View {
             }
         }
     }
-    
-//    func fetchMeContact() -> CNContact? {
-//        let store = CNContactStore()
-//        let keysToFetch = [CNContactFormatter.descriptorForRequiredKeys(for: .fullName)]
-//        
-//        do {
-//            // Fetch the "ME" contact
-//            let meContact = try store.unifiedMeContactWithKeys(toFetch: keysToFetch)
-//            return meContact
-//        } catch {
-//            print("Error fetching 'Me' contact: \(error)")
-//            return nil
-//        }
-//    }
     
     func fetchMeContact() -> CNContact? {
         let store = CNContactStore()
