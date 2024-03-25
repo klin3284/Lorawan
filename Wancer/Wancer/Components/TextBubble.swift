@@ -15,7 +15,7 @@ struct TextBubble: View {
         HStack(alignment: .bottom, spacing: 8) {
             Text(message.text)
                 .padding(12)
-                .background(isCurrentUser ? Color.blue : Color.gray)
+                .background(isCurrentUser ? Color.blue : Color.gray.opacity(0.2))
                 .foregroundColor(isCurrentUser ? .white : .black)
                 .cornerRadius(16)
         }
