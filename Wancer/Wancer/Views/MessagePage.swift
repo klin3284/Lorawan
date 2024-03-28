@@ -80,8 +80,8 @@ struct BubbleView: View {
 class ChatViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var newMessageText: String = ""
-    private var groups: [Group]
-    private var users: [User]
+    @Query private var groups: [Group]
+    @Query private var users: [User]
     @Environment(\.modelContext) var modelContext
     private var currentGroup: Group?
 
@@ -93,10 +93,8 @@ class ChatViewModel: ObservableObject {
         return users.first(where: {$0.id == Int(id)})
     }
     
-    init(groupId: Int, groups: [Group], users: [User]) {
-            self.groups = groups
-            self.users = users
-            self.currentGroup = groups.first(where: { $0.id == groupId })
+    init(groupId: Int) {
+        self.currentGroup = groups.first(where: { $0.id == groupId })
     }
 
     func loadMessages() -> [Message] {
@@ -128,11 +126,8 @@ class ChatViewModel: ObservableObject {
         
         let message1 = Message(id: 300, text: "Hello!", createdAt: Date.now, author: user, seen: false, group: group)
         let message2 = Message(id: 400, text: "Hi!", createdAt: Date.now, author: user, seen: true, group: group)
-//        container!.mainContext.insert(message1)
-//        container!.mainContext.insert(message2)
-//        group.addMessage(message1)
-//        group.addMessage(message2)
-
+        group.addMessage(message1)
+        group.addMessage(message2)
 
         do {
             try container!.mainContext.save()
@@ -154,7 +149,7 @@ class ChatViewModel: ObservableObject {
             print("Error saving context: \(error)")
         }
     
-        return ChatView(user: user, viewModel: ChatViewModel(groupId: group.id, groups: [group], users: [user]))
+        return ChatView(user: user, viewModel: ChatViewModel(groupId: group.id))
         
      } else {
        print("Error creating container")
