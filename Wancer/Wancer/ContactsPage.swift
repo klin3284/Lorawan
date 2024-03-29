@@ -47,6 +47,7 @@ struct ContactsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var users: [User] = []
     @State private var isShowingTooltip = false
+    @State private var isContactsFetched = false
     
     var body: some View {
         VStack {
@@ -66,9 +67,8 @@ struct ContactsView: View {
             }
         }
     }
- 
     
-    func fetchAllContacts(completion: @escaping ([CNContact]?, Error?) -> Void) {
+    private func fetchAllContacts(completion: @escaping ([CNContact]?, Error?) -> Void) {
         let store = CNContactStore()
         
         // Request access to the user's contacts
@@ -98,7 +98,7 @@ struct ContactsView: View {
         }
     }
  
-    func insertContactsIntoDatabase(_ contacts: [CNContact]) {
+    private func insertContactsIntoDatabase(_ contacts: [CNContact]) {
         // Insert fetched contacts into SQLite database
         for contact in contacts {
             if let firstPhoneNumber = contact.phoneNumbers.first {
@@ -116,7 +116,7 @@ struct ContactsView: View {
         }
     }
  
-    func fetchAllContactsAndInsertIntoDatabase() {
+    private func fetchAllContactsAndInsertIntoDatabase() {
         fetchAllContacts { fetchedContacts, error in
             if let fetchedContacts = fetchedContacts {
                 print("Obtained contacts")
