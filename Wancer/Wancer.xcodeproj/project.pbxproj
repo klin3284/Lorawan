@@ -21,6 +21,7 @@
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
 		1B31E6642BA9231A00C5F65B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */; };
 		1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */; };
+		1B6374682BB7307300FBCB86 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374672BB7307300FBCB86 /* InstructionsView.swift */; };
 		4F82642E2BAA11F2001D13DF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642D2BAA11F2001D13DF /* Message.swift */; };
 		4F8264302BAA11F9001D13DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642F2BAA11F9001D13DF /* User.swift */; };
 		4F8264342BAA120D001D13DF /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8264332BAA120D001D13DF /* Group.swift */; };
@@ -51,6 +52,7 @@
 		1B31E6602BA9231A00C5F65B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
+		1B6374672BB7307300FBCB86 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		4F82642D2BAA11F2001D13DF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4F82642F2BAA11F9001D13DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F8264332BAA120D001D13DF /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -103,17 +105,13 @@
 		1B31E65B2BA9231700C5F65B /* Wancer */ = {
 			isa = PBXGroup;
 			children = (
+				1B63746A2BB7309300FBCB86 /* Views */,
 				1B31E6622BA9231A00C5F65B /* Preview Content */,
 				4F82642C2BAA11DD001D13DF /* Models */,
 				1B31E6602BA9231A00C5F65B /* Assets.xcassets */,
-				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
+				1B63746B2BB730CD00FBCB86 /* Lib */,
 				1B31E65C2BA9231700C5F65B /* WancerApp.swift */,
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
-				1B2CF5B32BAE6AA50070F423 /* Constants.swift */,
-				1B2CF5B92BAE7B990070F423 /* StringUtil.swift */,
-				1B2CF5EA2BB368A70070F423 /* Queue.swift */,
-				1B2CF5EC2BB4BB840070F423 /* Notifications.swift */,
-				1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -124,6 +122,27 @@
 				1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1B63746A2BB7309300FBCB86 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1B6374672BB7307300FBCB86 /* InstructionsView.swift */,
+				1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1B63746B2BB730CD00FBCB86 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				1B2CF5EC2BB4BB840070F423 /* Notifications.swift */,
+				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
+				1B2CF5B32BAE6AA50070F423 /* Constants.swift */,
+				1B2CF5B92BAE7B990070F423 /* StringUtil.swift */,
+				1B2CF5EA2BB368A70070F423 /* Queue.swift */,
+			);
+			path = Lib;
 			sourceTree = "<group>";
 		};
 		4F82642C2BAA11DD001D13DF /* Models */ = {
@@ -259,6 +278,7 @@
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				1B2CF5BA2BAE7B990070F423 /* StringUtil.swift in Sources */,
+				1B6374682BB7307300FBCB86 /* InstructionsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
