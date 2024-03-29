@@ -17,13 +17,13 @@ class Message: Identifiable {
     
     var createdAt: Date
     
-    var author: User
+    var author: User?
     
     var seen: Bool
     
-    var group: Group
+    var group: Group?
     
-    init(id: Int, text: String, createdAt: Date, author: User, seen: Bool, group: Group) {
+    init(id: Int, text: String, createdAt: Date, author: User?, seen: Bool, group: Group?) {
         self.id = id
         self.text = text
         self.createdAt = createdAt

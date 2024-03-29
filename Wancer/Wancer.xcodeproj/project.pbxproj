@@ -14,10 +14,13 @@
 		1B2CF5CB2BAE9E890070F423 /* SignalsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */; };
 		1B2CF5CC2BAE9E9A0070F423 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B72BAE70500070F423 /* Signals.swift */; };
 		1B2CF5CD2BAF379C0070F423 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* Constants.swift */; };
+		1B2CF5EB2BB368A70070F423 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5EA2BB368A70070F423 /* Queue.swift */; };
+		1B2CF5ED2BB4BB840070F423 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5EC2BB4BB840070F423 /* Notifications.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
 		1B31E6642BA9231A00C5F65B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */; };
+		1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */; };
 		4F82642E2BAA11F2001D13DF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642D2BAA11F2001D13DF /* Message.swift */; };
 		4F8264302BAA11F9001D13DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642F2BAA11F9001D13DF /* User.swift */; };
 		4F8264342BAA120D001D13DF /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8264332BAA120D001D13DF /* Group.swift */; };
@@ -40,11 +43,14 @@
 		1B2CF5B92BAE7B990070F423 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
 		1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTest.swift; sourceTree = "<group>"; };
 		1B2CF5C22BAE9E7F0070F423 /* WancerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WancerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B2CF5EA2BB368A70070F423 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
+		1B2CF5EC2BB4BB840070F423 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
 		1B31E6592BA9231700C5F65B /* Wancer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wancer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B31E65C2BA9231700C5F65B /* WancerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WancerApp.swift; sourceTree = "<group>"; };
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B31E6602BA9231A00C5F65B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
 		4F82642D2BAA11F2001D13DF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4F82642F2BAA11F9001D13DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F8264332BAA120D001D13DF /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -105,6 +111,9 @@
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
 				1B2CF5B32BAE6AA50070F423 /* Constants.swift */,
 				1B2CF5B92BAE7B990070F423 /* StringUtil.swift */,
+				1B2CF5EA2BB368A70070F423 /* Queue.swift */,
+				1B2CF5EC2BB4BB840070F423 /* Notifications.swift */,
+				1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -238,10 +247,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2CF5ED2BB4BB840070F423 /* Notifications.swift in Sources */,
 				4F8264302BAA11F9001D13DF /* User.swift in Sources */,
 				1B2CF5B82BAE70500070F423 /* Signals.swift in Sources */,
 				4F82642E2BAA11F2001D13DF /* Message.swift in Sources */,
+				1B2CF5EB2BB368A70070F423 /* Queue.swift in Sources */,
 				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
+				1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
@@ -425,6 +437,8 @@
 				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -455,6 +469,8 @@
 				DEVELOPMENT_TEAM = 7Z67F2GBNK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

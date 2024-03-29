@@ -6,9 +6,8 @@
 //
 
 import SwiftUI
-import SwiftData
 
-public func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
+private func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
     var message = prefix
     var rangeMinBound = 0
     
@@ -24,23 +23,13 @@ public func signalStringBuilder(prefix: String, fields: [(field: String, maxLeng
 
 
 class Signal {
-    @Query private var groups: [Group]
-    @Query private var users: [User]
-    @Environment(\.modelContext) var modelContext
     
-    func fetchGroup(with id: String) -> Group? {
-        return groups.first(where: {$0.id == Int(id)})
-    }
     
-    func fetchUser(with id: String) -> User? {
-        return users.first(where: {$0.id == Int(id)})
-    }
-    
-    func handleSignal() {}
     
     func buildString() -> String {
         return ""
     }
+    
 }
 
 class CommunicationSignal: Signal {
@@ -63,11 +52,6 @@ class InvitationSignal: CommunicationSignal {
         super.init(groupId: groupId, messageId: "", senderNumber: senderNumber)
     }
     
-    override func handleSignal() {
-        // TODO: if receiving add group to pending accept where user can accept in inbox
-        // TODO: if sending add group as accepted to db
-    }
-    
     override func buildString() -> String {
         return signalStringBuilder(prefix: Constants.INVITATION_TYPE, fields: [(groupId, 20), (memberNumbers.joined(separator: ""), 100), (senderNumber, 10)])
     }
@@ -77,11 +61,6 @@ class InvitationSignal: CommunicationSignal {
 class AcceptationSignal: CommunicationSignal {
     init(groupId: String, senderNumber: String) {
         super.init(groupId: groupId, messageId: "", senderNumber: senderNumber)
-    }
-    
-    override func handleSignal() {
-        // TODO: need a new table for everyone who sent this back
-        // original sender is automatically in table
     }
     
     override func buildString() -> String {
@@ -97,12 +76,9 @@ class MessageSignal: CommunicationSignal {
         super.init(groupId: groupId, messageId: messageId, senderNumber: senderNumber)
     }
     
-    override func handleSignal() {
-        if let groupFound = self.fetchGroup(with: groupId),
-           let userFound = self.fetchUser(with: senderNumber),
-           let messageFound = Int(messageId) {
-            modelContext.insert(Message(id: messageFound, text: text, createdAt: Date(), author: userFound, seen: false, group: groupFound))
-        }
+    func createSignal() -> Message {
+        print("GroupID:\(groupId) SenderId: \(senderNumber) MessageId: \(messageId)")
+        return Message(id: Int(messageId) ?? 9999, text: text, createdAt: Date(), author: nil, seen: false, group: nil)
     }
     
     override func buildString() -> String {
@@ -118,20 +94,12 @@ class NavigationSignal: CommunicationSignal {
         super.init(groupId: groupId, messageId: messageId, senderNumber: senderNumber)
     }
     
-    override func handleSignal() {
-        // TODO: add navigation to db
-    }
-    
     override func buildString() -> String {
         return signalStringBuilder(prefix: Constants.NAVIGATION_TYPE, fields: [(groupId, 20), (messageId, 20), (senderNumber, 10), (location, 20)])
     }
 }
 
 class DeliveredSignal: CommunicationSignal {
-    override func handleSignal() {
-        // TODO: add delivered to db
-    }
-    
     override func buildString() -> String {
         return signalStringBuilder(prefix: Constants.DELIVERED_TYPE, fields: [(groupId, 20), (messageId, 20), (senderNumber, 10)])
     }
@@ -150,10 +118,6 @@ class SosSignal: Signal {
         self.createdAt = createdAt
         self.location = location
         self.text = text
-    }
-    
-    override func handleSignal() {
-        // TODO: add SOS to db
     }
     
     override func buildString() -> String {
