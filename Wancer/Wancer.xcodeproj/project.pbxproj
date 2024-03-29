@@ -44,14 +44,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B2CF5D62BB005690070F423 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		1B31E6502BA9231700C5F65B = {
 			isa = PBXGroup;
 			children = (
@@ -78,7 +70,6 @@
 				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
 				1B31E65C2BA9231700C5F65B /* WancerApp.swift */,
 				1B31E65E2BA9231700C5F65B /* ContentView.swift */,
-				1B2CF5D62BB005690070F423 /* Views */,
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -104,6 +95,7 @@
 		4F8D79E32BAF4F8B0016F442 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
 				4F8D79E42BAF4F970016F442 /* MessagePage.swift */,
 			);
 			path = Views;
