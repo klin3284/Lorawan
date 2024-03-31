@@ -55,6 +55,7 @@
 			children = (
 				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
 				1B63746C2BB735C900FBCB86 /* GroupsListView.swift */,
+				4F8D79E42BAF4F970016F442 /* MessagePage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -78,7 +79,6 @@
 		1B31E65B2BA9231700C5F65B /* Wancer */ = {
 			isa = PBXGroup;
 			children = (
-				4F8D79E32BAF4F8B0016F442 /* Views */,
 				1B31E6622BA9231A00C5F65B /* Preview Content */,
 				4F82642C2BAA11DD001D13DF /* Models */,
 				1B31E6602BA9231A00C5F65B /* Assets.xcassets */,
@@ -88,7 +88,6 @@
 				0B5944DD2BABAB9E004FB729 /* ContactsPage.swift */,
 				0B5944DF2BB13DE8004FB729 /* MeContactView.swift */,
 				1B2CF5D62BB005690070F423 /* Views */,
-
 			);
 			path = Wancer;
 			sourceTree = "<group>";
@@ -109,15 +108,6 @@
 				4F8264332BAA120D001D13DF /* Group.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		4F8D79E32BAF4F8B0016F442 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
-				4F8D79E42BAF4F970016F442 /* MessagePage.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

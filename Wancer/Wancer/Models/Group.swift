@@ -18,7 +18,7 @@ class Group: Identifiable {
     
     @Relationship(deleteRule: .nullify)
     var users: [User]?
-
+    
     @Relationship(deleteRule: .cascade, inverse: \Message.group)
     var messages: [Message]
     
@@ -44,4 +44,3 @@ class Group: Identifiable {
         }
     }
 }
-

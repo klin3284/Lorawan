@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class User: Identifiable, ObservableObject {
+class User: Identifiable {
     @Attribute(.unique)
     var id: Int
     
