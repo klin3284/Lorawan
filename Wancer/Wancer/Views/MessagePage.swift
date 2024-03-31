@@ -2,8 +2,9 @@ import SwiftUI
 import SwiftData
 
 struct ChatView: View {
-    @StateObject var user: User
-    @StateObject var viewModel: ChatViewModel
+    @Environment(\.modelContext) var modelContext
+    @State var user: User
+    @State var viewModel: ChatViewModel
     
     var body: some View {
         VStack(spacing: 16) {
@@ -61,6 +62,10 @@ struct ChatView: View {
             viewModel.messages = viewModel.loadMessages()
         }
     }
+//    init(modelContext: ModelContext) {
+//        let viewModel = ChatViewModel(modelContext: modelContext)
+//        _viewModel = State(initialValue: viewModel)
+//    }
 
 }
 
@@ -78,67 +83,77 @@ struct BubbleView: View {
           .frame(maxWidth: .infinity, alignment: message.author == user ? .trailing : .leading)
   }
 }
-class ChatViewModel: ObservableObject {
-    @Published var messages: [Message] = []
-    @Published var newMessageText: String = ""
-    private var groups: [Group]
-    private var currentGroup: Group?
-    private var users: [User]
-    
-    func fetchGroup(with id: String) -> Group? {
-        return groups.first(where: {$0.id == Int(id)})
-    }
-    
-    func fetchUser(with id: String) -> User? {
-        return users.first(where: {$0.id == Int(id)})
-    }
-    
-    init(groupId: Int, groups: [Group], users: [User]) {
-        self.groups = groups
-        self.users = users
-        self.currentGroup = groups.first(where: { $0.id == groupId })
-    }
-    
-    func loadMessages() -> [Message] {
-        if let currentGroup {
-            return currentGroup.messages.sorted(by: { $0.createdAt < $1.createdAt })
-        }
-        return []
-    }
-    
-    func sendMessage(user: User) {
-        if !newMessageText.isEmpty {
-            if let fetchedUser = fetchUser(with: String(user.id)) {
-                let msg = Message(id: messages.count + 1, text: newMessageText, createdAt: Date.now, author: fetchedUser, seen: false, group: currentGroup!)
-                messages.append(msg)
-                newMessageText = ""
-            } else {
-                print("Error fetching user for message")
+extension ChatView {
+    @Observable
+    class ChatViewModel: ObservableObject {
+        var messages: [Message] = []
+        var newMessageText: String = ""
+        var modelContext: ModelContext
+        private var groups = [Group]()
+        private var currentGroup: Group?
+        private var users = [User]()
+        
+        func fetchGroup() {
+            do {
+                groups = try modelContext.fetch(FetchDescriptor<Group>())
+            }
+            catch {
+                print("fetch failed")
             }
         }
-    }
+        func fetchUser() {
+            do {
+                users = try modelContext.fetch(FetchDescriptor<User>())
+            }
+            catch {
+                print("fetch failed")
+            }
+        }
+        
+        init(modelContext: ModelContext) {
+            self.modelContext = modelContext
+            fetchUser()
+            fetchGroup()
+        }
+        
+        func loadMessages() -> [Message] {
+            if let currentGroup {
+                return currentGroup.messages.sorted(by: { $0.createdAt < $1.createdAt })
+            }
+            return []
+        }
+        
+        func sendMessage(user: User) {
+            if !newMessageText.isEmpty {
+                    let msg = Message(id: messages.count + 1, text: newMessageText, createdAt: Date.now, author: user, seen: false, group: currentGroup!)
+                    messages.append(msg)
+                    newMessageText = ""
+                }
+            }
+        }
 }
 
-#Preview {
-    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-
-    let container = try! ModelContainer(for: Message.self, User.self, Group.self, configurations: config)
-    let user = User(id: 104, firstName: "Ethan", lastName: "Liu", groups: [])
-    let user1 = User(id: 103, firstName: "John", lastName: "Smith", groups: [])
-
-    let group = Group(id: 204, name: "group", users: [user], messages: [])
-        
-    container.mainContext.insert(user)
-    container.mainContext.insert(group)
-        
-    user.groups.append(group)
-
-    let message1 = Message(id: 300, text: "Helloooo!", createdAt: Date.now, author: user1, seen: false, group: group)
-    let message2 = Message(id: 400, text: "Hi!", createdAt: Date.now.addingTimeInterval(1000), author: user1, seen: true, group: group)
-    group.addMessage(message1)
-    group.addMessage(message2)
     
-    return ChatView(user: user, viewModel: ChatViewModel(groupId: group.id, groups: [group], users: [user]))
-        .modelContainer(container)
-}
-
+//#Preview {
+//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
+//
+//    let container = try! ModelContainer(for: Message.self, User.self, Group.self, configurations: config)
+//    let user = User(id: 104, firstName: "Ethan", lastName: "Liu", groups: [])
+//    let user1 = User(id: 103, firstName: "John", lastName: "Smith", groups: [])
+//
+//    let group = Group(id: 204, name: "group", users: [user], messages: [])
+//        
+//    container.mainContext.insert(user)
+//    container.mainContext.insert(group)
+//        
+//    user.groups.append(group)
+//
+//    let message1 = Message(id: 300, text: "Helloooo!", createdAt: Date.now, author: user1, seen: false, group: group)
+//    let message2 = Message(id: 400, text: "Hi!", createdAt: Date.now.addingTimeInterval(1000), author: user1, seen: true, group: group)
+//    group.addMessage(message1)
+//    group.addMessage(message2)
+//    
+//    return ChatView(user: user, viewModel: ChatViewModel(groupId: group.id, groups: [group], users: [user]))
+//        .modelContainer(container)
+//}
+//
