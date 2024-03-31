@@ -18,6 +18,7 @@ class Group: Identifiable {
     
     @Relationship(deleteRule: .nullify)
     var users: [User]?
+
     @Relationship(deleteRule: .cascade, inverse: \Message.group)
     var messages: [Message]
     
@@ -29,7 +30,7 @@ class Group: Identifiable {
     }
     
     func addUser(_ user: User) {
-        users?.append(user)
+        users = (users ?? []) + [user]
     }
     
     func addMessage(_ message: Message) {
@@ -37,8 +38,9 @@ class Group: Identifiable {
     }
     
     func removeUser(_ user: User) {
-        if let index = users?.firstIndex(where: { $0.id == user.id }) {
-            users?.remove(at: index)
+        if var users = users, let index = users.firstIndex(where: { $0.id == user.id }) {
+            users.remove(at: index)
+            self.users = users
         }
     }
 }
