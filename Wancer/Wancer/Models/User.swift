@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class User: Identifiable {
+class User: Identifiable, Codable {
     @Attribute(.unique)
     var id: Int
     
@@ -25,6 +25,26 @@ class User: Identifiable {
         self.firstName = firstName
         self.lastName = lastName
         self.groups = groups
+    }
+    
+    // MARK: Codable
+    enum CodingKeys: CodingKey {
+        case id, firstName, lastName, groups
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        firstName = try container.decode(String.self, forKey: .firstName)
+        lastName = try container.decode(String.self, forKey: .lastName)
+        id = try container.decode(Int.self, forKey: .id)
+        groups = []
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(firstName, forKey: .firstName)
+        try container.encode(lastName, forKey: .lastName)
+        try container.encode(id, forKey: .id)
     }
     
     func addGroups(_ group: Group) {

@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-class Acceptation : Signal, Identifiable {
+class Acceptation: Identifiable {
     var acceptedAt: Date
     
     var author: User?
