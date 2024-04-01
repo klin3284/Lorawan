@@ -14,7 +14,6 @@ struct WancerApp: App {
             ContentView()
                 .modelContainer(for: User.self)
                 .modelContainer(for: Group.self)
-                .modelContainer(for: Message.self)
         }
     }
 }
