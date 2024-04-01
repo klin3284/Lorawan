@@ -6,14 +6,26 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct WancerApp: App {
+    
+    let container: ModelContainer
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: User.self)
-                .modelContainer(for: Group.self)
+        }
+        .modelContainer(container)
+    }
+    
+    init() {
+        do {
+            container = try ModelContainer(for: User.self, Group.self, Message.self)
+        }
+        catch {
+            fatalError("Failed to create model container")
         }
     }
 }
