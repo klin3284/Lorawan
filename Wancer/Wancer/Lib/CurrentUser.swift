@@ -7,12 +7,31 @@
 
 import SwiftUI
 
-struct CurrentUser: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+class UserManager {
+    static let shared = UserManager()
+    private init() {}
 
-#Preview {
-    CurrentUser()
+    private var user: User?
+
+    func storeUser(_ user: User) {
+        self.user = user
+        if let encodedUser = try? JSONEncoder().encode(user) {
+            UserDefaults.standard.set(encodedUser, forKey: "storedUser")
+        }
+    }
+
+    func retrieveUser() -> User? {
+        if let user = self.user {
+            return user
+        } else if let userData = UserDefaults.standard.data(forKey: "storedUser") {
+            do {
+                let decodedUser = try JSONDecoder().decode(User.self, from: userData)
+                self.user = decodedUser
+                return decodedUser
+            } catch {
+                print("Failed to decode user data: \(error)")
+            }
+        }
+        return nil
+    }
 }
