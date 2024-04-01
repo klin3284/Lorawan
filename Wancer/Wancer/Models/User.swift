@@ -47,7 +47,7 @@ class User: Identifiable, Codable {
         try container.encode(id, forKey: .id)
     }
     
-    func addGroups(_ group: Group) {
+    func addGroup(_ group: Group) {
         self.groups.append(group)
     }
     

@@ -11,6 +11,7 @@ import SwiftData
 struct MessagesView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var groups: [Group]
+    @State private var isCreatingGroup = false
     
     private var sortedGroups: [Group] {
         groups.sorted { group1, group2 in
@@ -31,6 +32,18 @@ struct MessagesView: View {
                 }
             }
             .navigationBarTitle("Messages")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        isCreatingGroup = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
+            .sheet(isPresented: $isCreatingGroup) {
+                CreateGroupView(isPresented: $isCreatingGroup)
+            }
         }
     }
 }
