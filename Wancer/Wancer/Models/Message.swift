@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Message: Identifiable {
+class Message: Signal, Identifiable {
     @Attribute(.unique)
     var id: Int
     
