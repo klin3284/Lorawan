@@ -23,10 +23,12 @@
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
 		1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */; };
 		1B6374682BB7307300FBCB86 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374672BB7307300FBCB86 /* InstructionsView.swift */; };
-		1B63746F2BB9145200FBCB86 /* GroupsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63746E2BB9145200FBCB86 /* GroupsListView.swift */; };
-		1B6374732BBA643A00FBCB86 /* MessagePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374722BBA643A00FBCB86 /* MessagePage.swift */; };
+		1B63746F2BB9145200FBCB86 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63746E2BB9145200FBCB86 /* MessagesView.swift */; };
+		1B6374732BBA643A00FBCB86 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374722BBA643A00FBCB86 /* ChatView.swift */; };
 		1B6374792BBA6D9100FBCB86 /* Acceptation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374782BBA6D9100FBCB86 /* Acceptation.swift */; };
 		1B63747B2BBA70EC00FBCB86 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63747A2BBA70EC00FBCB86 /* CurrentUser.swift */; };
+		1B63747D2BBB1D6800FBCB86 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63747C2BBB1D6800FBCB86 /* MainView.swift */; };
+		1B63747F2BBB1D7D00FBCB86 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63747E2BBB1D7D00FBCB86 /* SettingsView.swift */; };
 		4F82642E2BAA11F2001D13DF /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642D2BAA11F2001D13DF /* Message.swift */; };
 		4F8264302BAA11F9001D13DF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F82642F2BAA11F9001D13DF /* User.swift */; };
 		4F8264342BAA120D001D13DF /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8264332BAA120D001D13DF /* Group.swift */; };
@@ -61,10 +63,12 @@
 		1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
 		1B6374672BB7307300FBCB86 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B63746C2BB735C900FBCB86 /* GroupsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
-		1B63746E2BB9145200FBCB86 /* GroupsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
-		1B6374722BBA643A00FBCB86 /* MessagePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagePage.swift; sourceTree = "<group>"; };
+		1B63746E2BB9145200FBCB86 /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		1B6374722BBA643A00FBCB86 /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		1B6374782BBA6D9100FBCB86 /* Acceptation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Acceptation.swift; sourceTree = "<group>"; };
 		1B63747A2BBA70EC00FBCB86 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		1B63747C2BBB1D6800FBCB86 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		1B63747E2BBB1D7D00FBCB86 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4F82642D2BAA11F2001D13DF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4F82642F2BAA11F9001D13DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F8264332BAA120D001D13DF /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -144,10 +148,12 @@
 			children = (
 				0B5944DD2BABAB9E004FB729 /* ContactsView.swift */,
 				0B5944DF2BB13DE8004FB729 /* MeContactView.swift */,
-				1B6374722BBA643A00FBCB86 /* MessagePage.swift */,
-				1B63746E2BB9145200FBCB86 /* GroupsListView.swift */,
+				1B6374722BBA643A00FBCB86 /* ChatView.swift */,
+				1B63746E2BB9145200FBCB86 /* MessagesView.swift */,
 				1B6374672BB7307300FBCB86 /* InstructionsView.swift */,
 				1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */,
+				1B63747C2BBB1D6800FBCB86 /* MainView.swift */,
+				1B63747E2BBB1D7D00FBCB86 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -286,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B63747F2BBB1D7D00FBCB86 /* SettingsView.swift in Sources */,
 				1B2CF5ED2BB4BB840070F423 /* Notifications.swift in Sources */,
 				4F8264302BAA11F9001D13DF /* User.swift in Sources */,
 				1B2CF5B82BAE70500070F423 /* Signals.swift in Sources */,
@@ -295,11 +302,12 @@
 				1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */,
-				1B63746F2BB9145200FBCB86 /* GroupsListView.swift in Sources */,
+				1B63746F2BB9145200FBCB86 /* MessagesView.swift in Sources */,
 				0B5944DE2BABAB9E004FB729 /* ContactsView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
-				1B6374732BBA643A00FBCB86 /* MessagePage.swift in Sources */,
+				1B63747D2BBB1D6800FBCB86 /* MainView.swift in Sources */,
+				1B6374732BBA643A00FBCB86 /* ChatView.swift in Sources */,
 				1B2CF5BA2BAE7B990070F423 /* StringUtil.swift in Sources */,
 				1B6374792BBA6D9100FBCB86 /* Acceptation.swift in Sources */,
 				1B6374682BB7307300FBCB86 /* InstructionsView.swift in Sources */,

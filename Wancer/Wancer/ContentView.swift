@@ -9,14 +9,39 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
+    @State private var isShowingInstructionView = false
     
-    @Query private var users: [User]
-    @Query private var groups: [Group]
-    @Query private var messages: [Message]
-
     var body: some View {
-       BleConnectionView()
+        NavigationStack {
+            ZStack {
+                // Welcome View content
+                VStack {
+                    Text("Welcome to Wancer")
+                        .font(.largeTitle)
+                        .padding()
+                    Text("Explore the possibilities of long range\nmessaging without cellular")
+                        .font(.subheadline)
+                        .multilineTextAlignment(.center)
+                        .padding()
+                
+                    
+                    Button(action: {
+                        isShowingInstructionView = true
+                    }) {
+                        Text("Get Started")
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    }
+                }
+            }
+            .navigationBarHidden(true)
+            .navigationDestination(isPresented: $isShowingInstructionView) {
+                InstructionsView()
+                    .navigationBarBackButtonHidden(true)
+            }
+        }
     }
 }
 

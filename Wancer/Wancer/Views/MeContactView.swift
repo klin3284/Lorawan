@@ -13,6 +13,8 @@ import Contacts
 
 struct MeContactView: View {
     @Environment(\.modelContext) private var modelContext
+    
+    @State private var isShowingMainView = false
     @State private var phoneNumber: String = ""
     @State private var isLoading = true
     @State private var showingFoundAlert = false
@@ -24,7 +26,7 @@ struct MeContactView: View {
     @Query private var users: [User] = []
     
     var body: some View {
-        NavigationView {
+        NavigationStack{
             if isLoading {
                 loadingView
             } else {
@@ -36,14 +38,17 @@ struct MeContactView: View {
                 isLoading = false
             }
         }
-        
         .alert(isPresented: $showingFoundAlert) {
             if let firstName = userManager.retrieveUser()?.firstName,
-               let lastName = userManager.retrieveUser()?.lastName {
+               let lastName = userManager.retrieveUser()?.lastName,
+               let phoneNumber = userManager.retrieveUser()?.id {
+                let formattedPhoneNumber = String(phoneNumber)
                 return Alert(title: Text("Is this you?"),
-                             message: Text("\(firstName) \(lastName)"),
+                             message: Text("\(formattedPhoneNumber)\n\(firstName) \(lastName)").bold(),
                              primaryButton: .cancel(Text("No")),
-                             secondaryButton: .default(Text("Yes")))
+                             secondaryButton: .default(Text("Yes"), action: {
+                    isShowingMainView.toggle()
+                }))
             } else {
                 return Alert(title: Text("User Not Found"),
                              message: Text("Unable to retrieve user information."),
@@ -69,11 +74,15 @@ struct MeContactView: View {
             Text("Lets add in your information!\nWARNING: Make sure Phone Number is Correct!")
         }
         .navigationBarTitle("Your Contact Info")
+        .navigationDestination(isPresented: $isShowingMainView) {
+            MainView()
+                .navigationBarBackButtonHidden(true)
+        }
     }
     
     @ViewBuilder
     private var loadingView: some View {
-        VStack {
+        VStack(spacing: 25) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                 .scaleEffect(2.0)
@@ -88,6 +97,10 @@ struct MeContactView: View {
             Section(header: Text("Personal Information")) {
                 TextField("Phone Number", text: $phoneNumber)
                     .keyboardType(.numberPad)
+                Text("This number will be used for other users to receive messages from you.")
+                    .font(.caption2)
+                    .foregroundColor(Color.gray)
+                    .multilineTextAlignment(.leading)
             }
             Section {
                 Button("Save") {
