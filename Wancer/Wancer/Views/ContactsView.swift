@@ -51,7 +51,7 @@ struct ContactsView: View {
                         ContactButton(user: user)
                     }
                 }
-                .navigationBarTitle("Settings")
+                .navigationBarTitle("Contacts")
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
