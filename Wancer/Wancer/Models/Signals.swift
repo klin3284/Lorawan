@@ -7,29 +7,10 @@
 
 import SwiftUI
 
-private func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
-    var message = prefix
-    var rangeMinBound = 0
-    
-    for (field, maxLength) in fields {
-        message += field.padding(toLength: maxLength, withPad: " ", startingAt: 0)
-        rangeMinBound += maxLength
-    }
-    
-    message = message.padding(toLength: 255, withPad: " ", startingAt: 0)
-    
-    return message
-}
-
-
 class Signal {
-    
-    
-    
     func buildString() -> String {
         return ""
     }
-    
 }
 
 class CommunicationSignal: Signal {
@@ -127,4 +108,18 @@ class SosSignal: Signal {
         
         return signalStringBuilder(prefix: Constants.SOS_TYPE, fields: [(name, 30), (senderNumber, 10), (createdAtToString, 20), (location, 20), (text, 170)])
     }
+}
+
+private func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
+    var message = prefix
+    var rangeMinBound = 0
+    
+    for (field, maxLength) in fields {
+        message += field.padding(toLength: maxLength, withPad: " ", startingAt: 0)
+        rangeMinBound += maxLength
+    }
+    
+    message = message.padding(toLength: 255, withPad: " ", startingAt: 0)
+    
+    return message
 }
