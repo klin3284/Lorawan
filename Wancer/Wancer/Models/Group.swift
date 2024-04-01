@@ -16,6 +16,8 @@ class Group: Identifiable {
     
     var name: String
     
+    var acceptedAt: Date?
+    
     @Relationship(deleteRule: .nullify)
     var users: [User]?
     
@@ -25,6 +27,15 @@ class Group: Identifiable {
     init(id: Int, name: String, users: [User], messages: [Message]) {
         self.id = id
         self.name = name
+        self.acceptedAt = nil
+        self.users = users
+        self.messages = messages
+    }
+    
+    init(id: Int, name: String, users: [User], acceptedAt: Date, messages: [Message]) {
+        self.id = id
+        self.name = name
+        self.acceptedAt = acceptedAt
         self.users = users
         self.messages = messages
     }
@@ -41,6 +52,12 @@ class Group: Identifiable {
         if var users = users, let index = users.firstIndex(where: { $0.id == user.id }) {
             users.remove(at: index)
             self.users = users
+        }
+    }
+    
+    func acceptInvitation() {
+        if self.acceptedAt == nil {
+            self.acceptedAt = Date.now
         }
     }
 }

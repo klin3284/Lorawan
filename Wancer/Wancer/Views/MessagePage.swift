@@ -62,11 +62,6 @@ struct ChatView: View {
             viewModel.messages = viewModel.loadMessages()
         }
     }
-//    init(modelContext: ModelContext) {
-//        let viewModel = ChatViewModel(modelContext: modelContext)
-//        _viewModel = State(initialValue: viewModel)
-//    }
-
 }
 
 struct BubbleView: View {
@@ -132,28 +127,3 @@ extension ChatView {
             }
         }
 }
-
-    
-//#Preview {
-//    let config = ModelConfiguration(isStoredInMemoryOnly: true)
-//
-//    let container = try! ModelContainer(for: Message.self, User.self, Group.self, configurations: config)
-//    let user = User(id: 104, firstName: "Ethan", lastName: "Liu", groups: [])
-//    let user1 = User(id: 103, firstName: "John", lastName: "Smith", groups: [])
-//
-//    let group = Group(id: 204, name: "group", users: [user], messages: [])
-//        
-//    container.mainContext.insert(user)
-//    container.mainContext.insert(group)
-//        
-//    user.groups.append(group)
-//
-//    let message1 = Message(id: 300, text: "Helloooo!", createdAt: Date.now, author: user1, seen: false, group: group)
-//    let message2 = Message(id: 400, text: "Hi!", createdAt: Date.now.addingTimeInterval(1000), author: user1, seen: true, group: group)
-//    group.addMessage(message1)
-//    group.addMessage(message2)
-//    
-//    return ChatView(user: user, viewModel: ChatViewModel(groupId: group.id, groups: [group], users: [user]))
-//        .modelContainer(container)
-//}
-//

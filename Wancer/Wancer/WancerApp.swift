@@ -10,22 +10,22 @@ import SwiftData
 
 @main
 struct WancerApp: App {
-
+    
     let container: ModelContainer
-
+    
     var body: some Scene {
         WindowGroup {
-            ChatView(modelContext: container.mainContext)
+            ContentView()
         }
         .modelContainer(container)
     }
+    
     init() {
         do {
             container = try ModelContainer(for: User.self, Group.self, Message.self)
         }
         catch {
-            fatalError("failed to create model container")
+            fatalError("Failed to create model container")
         }
     }
-
 }
