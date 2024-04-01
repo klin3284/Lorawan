@@ -88,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */,
+				1B2CF5D42BB005650070F423 /* InstructionsView.swift */,
 				1B63746C2BB735C900FBCB86 /* GroupsListView.swift */,
 			);
 			path = WancerTests;
