@@ -23,6 +23,7 @@ struct WancerApp: App {
     init() {
         do {
             container = try ModelContainer(for: User.self, Group.self, Message.self)
+            print("Created model container")
         }
         catch {
             fatalError("Failed to create model container")
