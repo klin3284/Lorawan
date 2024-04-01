@@ -22,8 +22,13 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
-    func connect(peripheral: CBPeripheral) {
-        centralManager.connect(peripheral, options: nil)
+    func connect(peripheral: CBPeripheral, completion: @escaping (Bool) -> Void) {
+        if let name = peripheral.name, name.lowercased().contains("dsd tech") || name.lowercased().contains("wancer") {
+            centralManager.connect(peripheral, options: nil)
+            completion(true)
+        } else {
+            completion(false)
+        }
     }
     
     func disconnect(peripheral: CBPeripheral) {
@@ -135,10 +140,10 @@ extension BluetoothManager: CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        if let name = peripheral.name, name.lowercased().contains("dsd tech") || name.lowercased().contains("wancer") {
-            connectedPeripheral = peripheral
-            connectedPeripheral?.delegate = self
-        }
+        
+        connectedPeripheral = peripheral
+        connectedPeripheral?.delegate = self
+        
         if let index = self.discoveredPeripherals.firstIndex(of: peripheral) {
             self.discoveredPeripherals.remove(at: index)
         }
@@ -186,7 +191,7 @@ extension BluetoothManager: CBPeripheralDelegate {
         
         let decodedMessage = String(decoding: value, as: UTF8.self)
         packetString += decodedMessage
-
+        
         if(packetString.count >= 255) {
             self.handleMessage(String(packetString.prefix(255)))
             packetString = ""
