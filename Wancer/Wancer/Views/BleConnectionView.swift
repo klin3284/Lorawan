@@ -8,14 +8,21 @@
 import SwiftUI
 import SwiftData
 
+let gBluetoothManager = BluetoothManager()
+
 struct BleConnectionView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var bluetoothManager = BluetoothManager()
+    
+    var bluetoothManager: BluetoothManager
     @State private var isShowingMeContactView = false
     @State private var showingAlert = false
     @Query private var users: [User]
     @Query private var groups: [Group]
+    
+    init() {
+        self.bluetoothManager = gBluetoothManager
+    }
     
     func fetchUserFromId(_ userId: Int) -> User? {
         return users.first(where: {$0.id == userId})

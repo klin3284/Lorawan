@@ -31,7 +31,7 @@ struct MessagesView: View {
                     GroupRowView(group: group)
                 }
             }
-            .navigationBarTitle("Messages")
+            .navigationBarTitle("Messages", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {

@@ -110,7 +110,7 @@ class SosSignal: Signal {
     }
 }
 
-private func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
+public func signalStringBuilder(prefix: String, fields: [(field: String, maxLength: Int)]) -> String {
     var message = prefix
     var rangeMinBound = 0
     
