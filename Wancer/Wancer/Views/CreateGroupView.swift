@@ -12,66 +12,76 @@ struct CreateGroupView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isPresented: Bool
     @Query private var users: [User] = []
-    
+    @State private var userManager = UserManager.shared
     @State private var groupName = ""
     @State private var groupMembers: [User] = []
-    
+    @State private var currentUser: User?
+
+    init(isPresented: Binding<Bool>) {
+        self._isPresented = isPresented
+    }
+
     var body: some View {
-        VStack {
-            TextField("Enter Group Chat Name", text: $groupName)
-            
-            HStack {
-                ScrollView(.horizontal) {
+        NavigationView {
+            VStack(spacing: 20) {
+                TextField("Enter Group Chat Name", text: $groupName)
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
+                    .background(Color(.secondarySystemBackground))
+                    .cornerRadius(8)
+
+                ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
-                        ForEach(groupMembers, id: \.id) { member in
+                        ForEach(groupMembers.dropFirst(), id: \.id) { member in
                             Text("\(member.firstName) \(member.lastName)")
-                                .padding()
+                                .padding(.horizontal)
+                                .padding(.vertical, 4)
                                 .background(Color.blue)
                                 .foregroundColor(.white)
-                                .cornerRadius(8)
+                                .cornerRadius(20)
                                 .onTapGesture {
-                                    removeMember(member)
+                                    if member != currentUser {
+                                        removeMember(member)
+                                    }
                                 }
                         }
                     }
+                    .padding(.horizontal)
                 }
-            }
-            .frame(height: 30)
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
-            
-            List(users, id: \.id) { user in
-                Button(action: {
-                    toggleMember(user)
-                }) {
-                    HStack {
-                        Text("\(user.firstName) \(user.lastName)")
-                        Spacer()
-                        if groupMembers.contains(where: {$0.id == user.id}) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.blue)
+
+                List(users, id: \.id) { user in
+                    Button(action: {
+                        toggleMember(user)
+                    }) {
+                        HStack {
+                            Text("\(user.firstName) \(user.lastName)")
+                            Spacer()
+                            if groupMembers.contains(where: { $0.id == user.id }) {
+                                Image(systemName: "checkmark")
+                                    .foregroundColor(.blue)
+                            }
                         }
                     }
+                    .buttonStyle(PlainButtonStyle())
                 }
-                .buttonStyle(PlainButtonStyle())
-            }
-            
-            Button("Done") {
-                createGroup()
             }
             .padding()
-            .background(Color.blue)
-            .foregroundColor(.white)
-            .cornerRadius(8)
-            
-            Spacer()
+            .navigationBarTitle("Create Group", displayMode: .inline)
+            .navigationBarItems(trailing: Button(action: {
+                createGroup()
+            }) {
+                Text("Create")
+                    .foregroundColor(.blue)
+            })
         }
-        .padding()
+        .onAppear {
+            if let currentUser = userManager.retrieveUser() {
+                self.currentUser = currentUser
+                groupMembers.append(currentUser)
+            }
+        }
     }
-    
+
     private func toggleMember(_ user: User) {
         if let index = groupMembers.firstIndex(where: { $0.id == user.id }) {
             groupMembers.remove(at: index)
@@ -79,13 +89,14 @@ struct CreateGroupView: View {
             groupMembers.append(user)
         }
     }
-    
+
     private func removeMember(_ user: User) {
         groupMembers.removeAll(where: { $0.id == user.id })
     }
-    
+
     private func createGroup() {
         let groupIdString = groupMembers.map { String($0.id % 10_000) }.joined()
+
         if let groupId = Int(groupIdString) {
             let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
             for member in groupMembers {
@@ -95,4 +106,3 @@ struct CreateGroupView: View {
         }
     }
 }
-
