@@ -3,37 +3,21 @@ import SwiftData
 
 struct ChatView: View {
     @Environment(\.modelContext) private var modelContext
+    @State private var userManager = UserManager.shared
     @State var user = UserManager.shared.retrieveUser()!
     @State private var newMessageText = ""
+    var bluetoothManager: BluetoothManager
     
     private var currentGroup: Group
     
     init(group: Group) {
+        self.bluetoothManager = gBluetoothManager
         self.currentGroup = group
     }
     
     var body: some View {
         VStack(spacing: 16) {
-            HStack {
-                ZStack(alignment: .leading) {
-                    Circle()
-                        .fill(Color.gray.opacity(0.2))
-                        .frame(width: 50, height: 50)
-                    Text("\(user.firstName.prefix(1).uppercased())\(user.lastName.prefix(1).uppercased())")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.black)
-                        .contentShape(Circle())
-                        .offset(x: 16)
-                }
-                
-                Text("\(user.firstName) \(user.lastName)")
-                    .font(.title2)
-                    .bold()
-                Spacer()
-            }
-            
-            Spacer()
-            
+            Text(currentGroup.id)
             List {
                 ForEach(currentGroup.messages) { message in
                     HStack {
@@ -53,7 +37,6 @@ struct ChatView: View {
                     .padding(10)
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(12)
-                
                 Button(action: {
                     sendMessage()
                 }) {
@@ -63,12 +46,23 @@ struct ChatView: View {
                 }
             }
         }
+        .navigationTitle(currentGroup.name)
         .padding()
     }
     
     private func sendMessage() {
-        print(newMessageText)
-        newMessageText = ""
+        if newMessageText != "" {
+            let newMessage = Message(id: currentGroup.messages.count, text: newMessageText, createdAt: Date(), author: userManager.retrieveUser(), seen: false, group: nil)
+            currentGroup.addMessage(newMessage)
+            if let messageSignal = newMessage.buildString() {
+                if let data = messageSignal.data(using: .utf8) {
+                    bluetoothManager.write(value: data, characteristic: bluetoothManager.characteristics[0])
+                }
+            } else {
+                print("Could not build string for signal")
+            }
+            newMessageText = ""
+        }
     }
 }
 

@@ -12,7 +12,7 @@ import SwiftData
 @Model
 class Group: Identifiable {
     @Attribute(.unique)
-    var id: Int
+    var id: String
     
     var name: String
     
@@ -24,7 +24,7 @@ class Group: Identifiable {
     @Relationship(deleteRule: .cascade, inverse: \Message.group)
     var messages: [Message]
     
-    init(id: Int, name: String, users: [User], messages: [Message]) {
+    init(id: String, name: String, users: [User], messages: [Message]) {
         self.id = id
         self.name = name
         self.acceptedAt = nil
@@ -32,7 +32,7 @@ class Group: Identifiable {
         self.messages = messages
     }
     
-    init(id: Int, name: String, users: [User], acceptedAt: Date, messages: [Message]) {
+    init(id: String, name: String, users: [User], acceptedAt: Date, messages: [Message]) {
         self.id = id
         self.name = name
         self.acceptedAt = acceptedAt
@@ -59,6 +59,15 @@ class Group: Identifiable {
         if self.acceptedAt == nil {
             self.acceptedAt = Date.now
         }
+    }
+    
+    func buildString(_ senderNumber: String) -> String? {
+        if let usersFound = users {
+            if usersFound.count > 1 {
+                return signalStringBuilder(prefix: Constants.INVITATION_TYPE, fields: [(id, 16), (usersFound.map { String($0.id) }.joined(separator: ""), 100), (senderNumber, 10)])
+            }
+        }
+        return nil
     }
 }
 

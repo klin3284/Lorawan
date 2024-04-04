@@ -16,11 +16,12 @@ struct CreateGroupView: View {
     @State private var groupName = ""
     @State private var groupMembers: [User] = []
     @State private var currentUser: User?
-
+    @Query private var groups: [Group]
+    
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
     }
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
@@ -29,7 +30,7 @@ struct CreateGroupView: View {
                     .padding(.vertical, 10)
                     .background(Color(.secondarySystemBackground))
                     .cornerRadius(8)
-
+                
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(groupMembers.dropFirst(), id: \.id) { member in
@@ -48,7 +49,7 @@ struct CreateGroupView: View {
                     }
                     .padding(.horizontal)
                 }
-
+                
                 List(users, id: \.id) { user in
                     Button(action: {
                         toggleMember(user)
@@ -81,7 +82,7 @@ struct CreateGroupView: View {
             }
         }
     }
-
+    
     private func toggleMember(_ user: User) {
         if let index = groupMembers.firstIndex(where: { $0.id == user.id }) {
             groupMembers.remove(at: index)
@@ -89,20 +90,26 @@ struct CreateGroupView: View {
             groupMembers.append(user)
         }
     }
-
+    
     private func removeMember(_ user: User) {
         groupMembers.removeAll(where: { $0.id == user.id })
     }
-
+    
     private func createGroup() {
-        let groupIdString = groupMembers.map { String($0.id % 10_000) }.joined()
-
-        if let groupId = Int(groupIdString) {
-            let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
-            for member in groupMembers {
-                member.addGroup(newGroup)
-            }
-            isPresented = false
+        let groupId = groupMembers
+            .sorted { $0.id < $1.id }
+            .map { String($0.id % 10_000) }
+            .joined()
+        
+        if groups.contains(where: {$0.id == groupId}) {
+            print("Group already exists")
+            return
         }
+        
+        let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
+        for member in groupMembers {
+            member.addGroup(newGroup)
+        }
+        isPresented = false
     }
 }
