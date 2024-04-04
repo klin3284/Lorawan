@@ -17,7 +17,7 @@ struct ChatView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(String(currentGroup.id))
+            Text(currentGroup.id)
             List {
                 ForEach(currentGroup.messages) { message in
                     HStack {

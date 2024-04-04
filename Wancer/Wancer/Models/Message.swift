@@ -35,7 +35,7 @@ class Message: Identifiable {
     func buildString() -> String? {
         if let groupFound = group,
            let userFound = author {
-            return signalStringBuilder(prefix: Constants.MESSAGE_TYPE, fields: [(String(groupFound.id), 20), (String(id), 20), (String(userFound.id), 10), (text, 200)])
+            return signalStringBuilder(prefix: Constants.MESSAGE_TYPE, fields: [(groupFound.id, 20), (String(id), 20), (String(userFound.id), 10), (text, 200)])
         }
         return nil
     }
