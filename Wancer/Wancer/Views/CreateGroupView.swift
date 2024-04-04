@@ -16,6 +16,7 @@ struct CreateGroupView: View {
     @State private var groupName = ""
     @State private var groupMembers: [User] = []
     @State private var currentUser: User?
+    @Query private var groups: [Group]
     
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
@@ -99,6 +100,11 @@ struct CreateGroupView: View {
             .sorted { $0.id < $1.id }
             .map { String($0.id % 10_000) }
             .joined()
+        
+        if groups.contains(where: {$0.id == groupId}) {
+            print("Group already exists")
+            return
+        }
         
         let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
         for member in groupMembers {
