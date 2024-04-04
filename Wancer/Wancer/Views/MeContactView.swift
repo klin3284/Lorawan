@@ -37,6 +37,9 @@ struct MeContactView: View {
             fetchAllContactsAndInsertIntoDatabase {
                 isLoading = false
             }
+            if userManager.retrieveUser() != nil {
+                isShowingMainView = true
+            }
         }
         .alert(isPresented: $showingFoundAlert) {
             if let firstName = userManager.retrieveUser()?.firstName,
