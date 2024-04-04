@@ -95,8 +95,11 @@ struct CreateGroupView: View {
     }
     
     private func createGroup() {
-        let groupId = groupMembers.map { String($0.id % 10_000) }.joined()
-          
+        let groupId = groupMembers
+            .sorted { $0.id < $1.id }
+            .map { String($0.id % 10_000) }
+            .joined()
+        
         let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
         for member in groupMembers {
             member.addGroup(newGroup)
