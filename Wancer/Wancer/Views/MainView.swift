@@ -74,10 +74,17 @@ struct MainView: View {
                     break;
                 case let signal as InvitationSignal:
                     print("Invite")
+                    print(signal.senderNumber)
+                    print(signal.groupId)
+                    print(signal.memberNumbers.count)
                     if let senderId = Int(signal.senderNumber) {
                         if fetchGroupFromId(signal.groupId) == nil &&
                             fetchUserFromId(senderId) != nil {
                             var groupMember: [User] = []
+                            if let senderFound = fetchUserFromId(senderId) {
+                                print("sender added")
+                                groupMember.append(senderFound)
+                            }
                             for userIdString in signal.memberNumbers {
                                 if let userId = Int(userIdString) {
                                     if let userFound = fetchUserFromId(userId) {
@@ -89,7 +96,7 @@ struct MainView: View {
                                     }
                                 }
                             }
-                           let newGroup = Group(id: signal.groupId, name: "", users: [], messages: [])
+                            let newGroup = Group(id: signal.groupId, name: "", users: [], messages: [])
                             for member in groupMember {
                                 member.addGroup(newGroup)
                             }

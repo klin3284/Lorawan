@@ -68,7 +68,7 @@ class Group: Identifiable {
     func buildString(_ senderNumber: String) -> String? {
         if let usersFound = users {
             if usersFound.count > 1 {
-                return signalStringBuilder(prefix: Constants.INVITATION_TYPE, fields: [(id, 16), (usersFound.map { String($0.id) }.joined(separator: ""), 100), (senderNumber, 10)])
+                return signalStringBuilder(prefix: Constants.INVITATION_TYPE, fields: [(id, 20), (usersFound.map { String($0.id) }.joined(separator: ""), 100), (senderNumber, 10)])
             }
         }
         return nil

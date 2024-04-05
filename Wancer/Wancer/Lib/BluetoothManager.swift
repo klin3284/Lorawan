@@ -42,7 +42,7 @@ class BluetoothManager: NSObject, ObservableObject {
                 if let value = part.data(using: .utf8){
                     self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1){}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){}
             }
         }
     }

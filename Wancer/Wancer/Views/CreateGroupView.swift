@@ -50,7 +50,7 @@ struct CreateGroupView: View {
                     .padding(.horizontal)
                 }
                 
-                List(users.sorted { user1, user2 in
+                List(users.filter{ $0.id != userManager.retrieveUser()?.id}.sorted { user1, user2 in
                     if user1.lastName == user2.lastName {
                         return user1.firstName < user2.firstName
                     } else {
@@ -113,7 +113,7 @@ struct CreateGroupView: View {
         
         let newGroup = Group(id: groupId, name: groupName, users: [], acceptedAt: Date(), messages: [])
         
-        for member in groupMembers {
+        for member in groupMembers.dropFirst() {
             member.addGroup(newGroup)
         }
         

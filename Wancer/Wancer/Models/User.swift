@@ -18,9 +18,9 @@ class User: Identifiable, Codable {
     var lastName: String
     
     @Relationship(inverse: \Group.users)
-    var groups: [Group]
+    var groups: [Group]?
     
-    init(id: Int, firstName: String, lastName: String, groups: [Group]) {
+    init(id: Int, firstName: String, lastName: String, groups: [Group]?) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
@@ -48,7 +48,12 @@ class User: Identifiable, Codable {
     }
     
     func addGroup(_ group: Group) {
-        self.groups.append(group)
+        if var existingGroups = self.groups {
+            existingGroups.append(group)
+            self.groups = existingGroups
+        } else {
+            self.groups = [group]
+        }
     }
     
     func changeFirstName(_ firstName: String) {

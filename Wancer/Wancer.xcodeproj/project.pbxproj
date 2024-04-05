@@ -21,6 +21,7 @@
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
 		1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65E2BA9231700C5F65B /* ContentView.swift */; };
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
+		1B5605622BC045550061A558 /* PendingGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605612BC045550061A558 /* PendingGroupView.swift */; };
 		1B6374442BB72B1700FBCB86 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */; };
 		1B6374682BB7307300FBCB86 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B6374672BB7307300FBCB86 /* InstructionsView.swift */; };
 		1B63746F2BB9145200FBCB86 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B63746E2BB9145200FBCB86 /* MessagesView.swift */; };
@@ -61,6 +62,7 @@
 		1B31E65E2BA9231700C5F65B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1B31E6602BA9231A00C5F65B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1B5605612BC045550061A558 /* PendingGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingGroupView.swift; sourceTree = "<group>"; };
 		1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
 		1B6374672BB7307300FBCB86 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B63746E2BB9145200FBCB86 /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 				1B63747C2BBB1D6800FBCB86 /* MainView.swift */,
 				1B63747E2BBB1D7D00FBCB86 /* SettingsView.swift */,
 				1B6374802BBB4C2400FBCB86 /* CreateGroupView.swift */,
+				1B5605612BC045550061A558 /* PendingGroupView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */,
 				1B63746F2BB9145200FBCB86 /* MessagesView.swift in Sources */,
 				0B5944DE2BABAB9E004FB729 /* ContactsView.swift in Sources */,
+				1B5605622BC045550061A558 /* PendingGroupView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				1B63747D2BBB1D6800FBCB86 /* MainView.swift in Sources */,
@@ -413,7 +417,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -470,7 +474,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -499,7 +503,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -532,7 +536,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
