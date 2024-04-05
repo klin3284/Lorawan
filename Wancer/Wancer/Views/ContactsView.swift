@@ -47,7 +47,13 @@ struct ContactsView: View {
                 }
             } else {
                 VStack {
-                    List(users) { user in
+                    List(users.sorted { user1, user2 in
+                        if user1.lastName == user2.lastName {
+                            return user1.firstName < user2.firstName
+                        } else {
+                            return user1.lastName < user2.lastName
+                        }
+                    })  { user in
                         ContactButton(user: user)
                     }
                 }

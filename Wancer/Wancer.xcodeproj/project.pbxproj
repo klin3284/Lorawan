@@ -63,7 +63,6 @@
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1B6374432BB72B1700FBCB86 /* BleConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
 		1B6374672BB7307300FBCB86 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
-		1B63746C2BB735C900FBCB86 /* GroupsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsListView.swift; sourceTree = "<group>"; };
 		1B63746E2BB9145200FBCB86 /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		1B6374722BBA643A00FBCB86 /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		1B6374782BBA6D9100FBCB86 /* Acceptation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Acceptation.swift; sourceTree = "<group>"; };
@@ -74,7 +73,6 @@
 		4F82642D2BAA11F2001D13DF /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		4F82642F2BAA11F9001D13DF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4F8264332BAA120D001D13DF /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
-		4F8D79E42BAF4F970016F442 /* MessagePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagePage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,8 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */,
-				1B63746C2BB735C900FBCB86 /* GroupsListView.swift */,
-				4F8D79E42BAF4F970016F442 /* MessagePage.swift */,
 			);
 			path = WancerTests;
 			sourceTree = "<group>";

@@ -40,6 +40,10 @@ class Group: Identifiable {
         self.messages = messages
     }
     
+    func setName(_ name: String) {
+        self.name = name
+    }
+    
     func addUser(_ user: User) {
         users = (users ?? []) + [user]
     }

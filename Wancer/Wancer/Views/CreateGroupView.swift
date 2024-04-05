@@ -12,14 +12,16 @@ struct CreateGroupView: View {
     @Environment(\.modelContext) private var modelContext
     @Binding var isPresented: Bool
     @Query private var users: [User] = []
+    @Query private var groups: [Group] = []
     @State private var userManager = UserManager.shared
     @State private var groupName = ""
     @State private var groupMembers: [User] = []
-    @State private var currentUser: User?
-    @Query private var groups: [Group]
+    
+    var bluetoothManager: BluetoothManager
     
     init(isPresented: Binding<Bool>) {
         self._isPresented = isPresented
+        self.bluetoothManager = gBluetoothManager
     }
     
     var body: some View {
@@ -41,16 +43,20 @@ struct CreateGroupView: View {
                                 .foregroundColor(.white)
                                 .cornerRadius(20)
                                 .onTapGesture {
-                                    if member != currentUser {
-                                        removeMember(member)
-                                    }
+                                    removeMember(member)
                                 }
                         }
                     }
                     .padding(.horizontal)
                 }
                 
-                List(users, id: \.id) { user in
+                List(users.sorted { user1, user2 in
+                    if user1.lastName == user2.lastName {
+                        return user1.firstName < user2.firstName
+                    } else {
+                        return user1.lastName < user2.lastName
+                    }
+                }) { user in
                     Button(action: {
                         toggleMember(user)
                     }) {
@@ -77,7 +83,6 @@ struct CreateGroupView: View {
         }
         .onAppear {
             if let currentUser = userManager.retrieveUser() {
-                self.currentUser = currentUser
                 groupMembers.append(currentUser)
             }
         }
@@ -106,10 +111,18 @@ struct CreateGroupView: View {
             return
         }
         
-        let newGroup = Group(id: groupId, name: groupName, users: [], messages: [])
+        let newGroup = Group(id: groupId, name: groupName, users: [], acceptedAt: Date(), messages: [])
+        
         for member in groupMembers {
             member.addGroup(newGroup)
         }
+        
+        if let currentUser = userManager.retrieveUser() {
+            if let invitationSignal = newGroup.buildString(String(currentUser.id)) {
+                bluetoothManager.write(value: invitationSignal, characteristic: bluetoothManager.characteristics[0])
+            }
+        }
+        
         isPresented = false
     }
 }

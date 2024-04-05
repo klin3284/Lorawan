@@ -12,6 +12,7 @@ struct MessagesView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var groups: [Group]
     @State private var isCreatingGroup = false
+    @State private var isAcceptingGroup = false
     
     private var sortedGroups: [Group] {
         groups.sorted { group1, group2 in
@@ -25,25 +26,104 @@ struct MessagesView: View {
     
     var body: some View {
         NavigationView {
-            List(sortedGroups) { group in
+            List(sortedGroups.filter { $0.acceptedAt != nil }) { group in
                 NavigationLink(destination: ChatView(group: group)
                 ) {
                     GroupRowView(group: group)
                 }
+                .swipeActions(allowsFullSwipe: true) {
+                        Button(role: .destructive, action: {
+                            deleteGroup(group)
+                        }) {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
             }
             .navigationBarTitle("Messages", displayMode: .inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isCreatingGroup = true
-                    }) {
-                        Image(systemName: "plus")
+                    HStack {
+                        Button(action: {
+                            self.isAcceptingGroup = true
+                        }) {
+                            Image(systemName: "envelope")
+                        }
+                        Button(action: {
+                            self.isCreatingGroup = true
+                        }) {
+                            Image(systemName: "plus")
+                        }
                     }
                 }
             }
             .sheet(isPresented: $isCreatingGroup) {
                 CreateGroupView(isPresented: $isCreatingGroup)
             }
+            .sheet(isPresented: $isAcceptingGroup) {
+                PendingGroupView(isPresented: $isAcceptingGroup)
+                
+            }
+        }
+    }
+    
+    private func deleteGroup(_ group: Group) {
+        guard UserManager.shared.retrieveUser() != nil else {
+            print("Current user not found")
+            return
+        }
+        
+        modelContext.delete(group)
+    }
+}
+
+struct PendingGroupView: View {
+    @Binding var isPresented: Bool
+    @Query private var groups: [Group]
+    @State private var showAssignGroupName = false
+    @State private var groupName = ""
+    @State private var selectedGroup: Group?
+    
+    init(isPresented: Binding<Bool>) {
+        self._isPresented = isPresented
+    }
+    
+    var body: some View {
+        VStack {
+            Text("Pending Groups")
+                .font(.headline)
+                .padding()
+            
+            List(groups.filter{ $0.acceptedAt == nil }) { group in
+                HStack {
+                    Text(group.users?.map{ $0.firstName }.joined(separator: " ") ?? "Unknown Members")
+                    Spacer()
+                    Button(action: {
+                        selectedGroup = group
+                        showAssignGroupName = true
+                    }) {
+                        Image(systemName: "checkmark.circle")
+                    }
+                }
+            }
+            .padding()
+            
+            Button("Close") {
+                self.isPresented = false
+            }
+            .padding()
+        }
+        .alert("Give This Group Chat a Name", isPresented: $showAssignGroupName) {
+            TextField("Group Name", text: $groupName)
+            Button("Cancel") {
+                showAssignGroupName.toggle()
+            }
+            Button("OK") {
+                if let selectedGroup = selectedGroup {
+                    selectedGroup.acceptInvitation()
+                    selectedGroup.setName(groupName)
+                    isPresented = false
+                }
+            }.disabled(groupName.count == 0)
         }
     }
 }

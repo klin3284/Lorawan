@@ -18,6 +18,7 @@ struct ChatView: View {
     var body: some View {
         VStack(spacing: 16) {
             Text(currentGroup.id)
+            Text(currentGroup.users?.map{$0.firstName}.joined(separator: " ") ?? "Bad")
             List {
                 ForEach(currentGroup.messages) { message in
                     HStack {
@@ -52,12 +53,11 @@ struct ChatView: View {
     
     private func sendMessage() {
         if newMessageText != "" {
-            let newMessage = Message(id: currentGroup.messages.count, text: newMessageText, createdAt: Date(), author: userManager.retrieveUser(), seen: false, group: nil)
+            print(currentGroup.messages.count)
+            let newMessage = Message(id: currentGroup.messages.count, text: newMessageText, createdAt: Date(), author: user, seen: false, group: nil)
             currentGroup.addMessage(newMessage)
             if let messageSignal = newMessage.buildString() {
-                if let data = messageSignal.data(using: .utf8) {
-                    bluetoothManager.write(value: data, characteristic: bluetoothManager.characteristics[0])
-                }
+                bluetoothManager.write(value: messageSignal, characteristic: bluetoothManager.characteristics[0])
             } else {
                 print("Could not build string for signal")
             }

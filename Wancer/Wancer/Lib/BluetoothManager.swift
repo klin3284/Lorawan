@@ -35,9 +35,15 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager.cancelPeripheralConnection(peripheral)
     }
     
-    func write(value: Data, characteristic: CBCharacteristic) {
+    func write(value: String, characteristic: CBCharacteristic) {
         if ((connectedPeripheral?.canSendWriteWithoutResponse) != nil) {
-            self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
+            let splitString = value.splitIntoNCharacterStrings(51)
+            for part in splitString {
+                if let value = part.data(using: .utf8){
+                    self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1){}
+            }
         }
     }
     
