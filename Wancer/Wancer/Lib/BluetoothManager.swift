@@ -5,21 +5,27 @@
 //
 
 import CoreBluetooth
-
+import SwiftUI
 
 class BluetoothManager: NSObject, ObservableObject {
     @Published var isBluetoothEnabled = false
     @Published var discoveredPeripherals = [CBPeripheral]()
     @Published var connectedPeripheral: CBPeripheral? = nil
     @Published var characteristics = [CBCharacteristic]()
-    @Published var messageQueue = Queue<Signal>()
     
+    private var databaseManager = DatabaseManager.shared
     private var centralManager: CBCentralManager!
     private var packetString : String = ""
     
-    override init() {
+    static let shared = BluetoothManager()
+    
+    private override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
+    }
+    
+    func startScan() {
+        centralManager.scanForPeripherals(withServices: nil, options: nil)
     }
     
     func connect(peripheral: CBPeripheral, completion: @escaping (Bool) -> Void) {
@@ -35,9 +41,15 @@ class BluetoothManager: NSObject, ObservableObject {
         centralManager.cancelPeripheralConnection(peripheral)
     }
     
-    func write(value: Data, characteristic: CBCharacteristic) {
+    func write(value: String, characteristic: CBCharacteristic) {
         if ((connectedPeripheral?.canSendWriteWithoutResponse) != nil) {
-            self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
+            let splitString = value.splitIntoNCharacterStrings(51)
+            for part in splitString {
+                if let value = part.data(using: .utf8){
+                    self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){}
+            }
         }
     }
     
@@ -72,32 +84,60 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     func handleMessage(_ decodedMessage: String) {
-        var signal: Signal? = nil
-        
         switch String(decodedMessage.prefix(5)) {
         case Constants.MESSAGE_TYPE:
             print("Message")
-            signal = MessageSignal(groupId: decodedMessage[5..<21], messageId: decodedMessage[25..<41], senderNumber: decodedMessage[45..<55], text: decodedMessage[55..<255])
+            let groupSecret = decodedMessage[5..<25]
+                .trimmingCharacters(in: .whitespaces)
+            let messageSecret = decodedMessage[25..<45]
+                .trimmingCharacters(in: .whitespaces)
+            let senderPhoneNumber = decodedMessage[45..<55]
+            let text = decodedMessage[55..<255]
+                .trimmingCharacters(in: .whitespaces)
+            
+            print(groupSecret)
+            print(messageSecret)
+            print(senderPhoneNumber)
+            print(text)
+            
+            databaseManager.groups.map{print($0.secret)}
+            
+            if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}) {
+                if let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                    databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
+                    databaseManager.getAllGroups()
+                } else {
+                    print("cant find or sender")
+                }
+            } else {
+                print("cant find group")
+            }
             break
             
         case Constants.INVITATION_TYPE:
             print("Invitation")
-            signal = InvitationSignal(groupId: decodedMessage[5..<25], memberNumbers: decodedMessage[25..<125].splitIntoNCharacterStrings(10), senderNumber: decodedMessage[125..<135])
-            break
+            let groupSecret = decodedMessage[5..<25]
+                .trimmingCharacters(in: .whitespaces)
+            let groupMembersPhoneNumbers = decodedMessage[25..<125]
+                .trimmingCharacters(in: .whitespaces)
+                .splitIntoNCharacterStrings(10)
+            let senderPhoneNumber = decodedMessage[125..<135]
             
-        case Constants.ACCEPTATION_TYPE:
-            print("Acceptation")
-            signal = AcceptationSignal(groupId:decodedMessage[5..<25], senderNumber: decodedMessage[25..<35])
-            break
+            if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
+               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                for phoneNumber in groupMembersPhoneNumbers {
+                    if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
+                        databaseManager.insertUserGroup(member.id, groupId)
+                    } else {
+                        if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
+                            databaseManager.insertUserGroup(newUserId, groupId)
+                        }
+                    }
+                }
+                databaseManager.fetchAll()
+            }
             
-        case Constants.DELIVERED_TYPE:
-            print("Delivered")
-            signal = DeliveredSignal(groupId:decodedMessage[5..<25], messageId: decodedMessage[25..<45], senderNumber: decodedMessage[45..<55])
-            break
             
-        case Constants.NAVIGATION_TYPE:
-            print("Navigation")
-            signal = NavigationSignal(groupId:decodedMessage[5..<25], messageId: decodedMessage[25..<45], senderNumber: decodedMessage[45..<55], location: decodedMessage[55..<75])
             break
             
         case Constants.SOS_TYPE:
@@ -105,20 +145,13 @@ class BluetoothManager: NSObject, ObservableObject {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
             if let dateToString = dateFormatter.date(from: decodedMessage[45..<65]) {
-                signal = SosSignal(name: decodedMessage[5..<35], senderNumber: decodedMessage[35..<45], createdAt: dateToString, location: decodedMessage[65..<85], text: decodedMessage[85..<255])
+//                let signal = SosSignal(name: decodedMessage[5..<35], senderNumber: decodedMessage[35..<45], createdAt: dateToString, location: decodedMessage[65..<85], text: decodedMessage[85..<255])
             }
             break
             
         default:
             return
         }
-        
-        if let signalHandled = signal {
-            print("enqueue signal")
-            messageQueue.enqueue(signalHandled)
-            NotificationCenter.default.post(name: NSNotification.MessageReceived, object: nil)
-        }
-        return
     }
     
 }
@@ -157,6 +190,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
             characteristics.removeAll()
             self.centralManager.stopScan()
             self.centralManager.scanForPeripherals(withServices: nil, options: nil)
+            NotificationCenter.default.post(name: NSNotification.LostBleConnection, object: nil)
         }
     }
 }

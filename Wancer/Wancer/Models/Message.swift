@@ -8,35 +8,24 @@
 import Foundation
 import SwiftData
 
-@Model
-class Message: Identifiable {
-    @Attribute(.unique)
-    var id: Int
+struct Message: Identifiable {
+    let id: Int64
+    let groupId: Int64
+    let userId: Int64
+    let text: String
+    let createdAt: Date
+    let secret: String
     
-    var text: String
-    
-    var createdAt: Date
-    
-    var author: User?
-    
-    var seen: Bool
-    
-    var group: Group?
-    
-    init(id: Int, text: String, createdAt: Date, author: User?, seen: Bool, group: Group?) {
+    init(id: Int64, userId: Int64, groupId: Int64, text: String, createdAt: Date, secret: String) {
         self.id = id
+        self.userId = userId
+        self.groupId = groupId
         self.text = text
         self.createdAt = createdAt
-        self.author = author
-        self.seen = seen
-        self.group = group
+        self.secret = secret
     }
     
-    func buildString() -> String? {
-        if let groupFound = group,
-           let userFound = author {
-            return signalStringBuilder(prefix: Constants.MESSAGE_TYPE, fields: [(groupFound.id, 20), (String(id), 20), (String(userFound.id), 10), (text, 200)])
-        }
-        return nil
+    func buildString(_ groupSecret: String, _ authorPhoneNumber: String) -> String {
+        return signalStringBuilder(prefix: Constants.MESSAGE_TYPE, fields: [(groupSecret, 20), (secret, 20), (authorPhoneNumber,  10), (text, 200)])
     }
 }

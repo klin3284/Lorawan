@@ -9,4 +9,5 @@ import SwiftUI
 
 extension NSNotification {
     static let MessageReceived = Notification.Name.init("MessageReceived")
+    static let LostBleConnection = Notification.Name.init("LostBleConnection")
 }

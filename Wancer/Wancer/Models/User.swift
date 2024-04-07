@@ -6,49 +6,39 @@
 //
 
 import Foundation
-import SwiftData
 
-@Model
 class User: Identifiable, Codable {
-    @Attribute(.unique)
-    var id: Int
-    
+    let id: Int64
     var firstName: String
-    
     var lastName: String
+    var phoneNumber: String
     
-    @Relationship(inverse: \Group.users)
-    var groups: [Group]
-    
-    init(id: Int, firstName: String, lastName: String, groups: [Group]) {
+    init(id: Int64, firstName: String, lastName: String, phoneNumber: String) {
         self.id = id
         self.firstName = firstName
         self.lastName = lastName
-        self.groups = groups
+        self.phoneNumber = phoneNumber
     }
     
     // MARK: Codable
     enum CodingKeys: CodingKey {
-        case id, firstName, lastName, groups
+        case id, firstName, lastName, phoneNumber
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         firstName = try container.decode(String.self, forKey: .firstName)
         lastName = try container.decode(String.self, forKey: .lastName)
-        id = try container.decode(Int.self, forKey: .id)
-        groups = []
+        phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
+        id = try container.decode(Int64.self, forKey: .id)
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(firstName, forKey: .firstName)
         try container.encode(lastName, forKey: .lastName)
+        try container.encode(phoneNumber, forKey: .phoneNumber)
         try container.encode(id, forKey: .id)
-    }
-    
-    func addGroup(_ group: Group) {
-        self.groups.append(group)
     }
     
     func changeFirstName(_ firstName: String) {

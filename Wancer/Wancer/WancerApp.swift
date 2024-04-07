@@ -6,27 +6,17 @@
 //
 
 import SwiftUI
-import SwiftData
 
 @main
 struct WancerApp: App {
-    
-    let container: ModelContainer
+    @StateObject private var databaseManager = DatabaseManager.shared
+    @StateObject private var bluetoothManager = BluetoothManager.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-        }
-        .modelContainer(container)
-    }
-    
-    init() {
-        do {
-            container = try ModelContainer(for: User.self, Group.self, Message.self)
-            print("Created model container")
-        }
-        catch {
-            fatalError("Failed to create model container")
+                .environmentObject(databaseManager)
+                .environmentObject(bluetoothManager)
         }
     }
 }
