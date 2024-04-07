@@ -19,21 +19,23 @@ struct ChatView: View {
         VStack(spacing: 16) {
             Text(currentGroup.secret)
             Text(groupMembers.map{$0.firstName}.joined(separator: " "))
-            List {
-                ForEach(currentGroup.messages) { message in
-                    HStack {
-                        Spacer()
-                        BubbleView(message: message, user: user)
+            
+            ScrollViewReader { proxy in
+                ScrollView {
+                    ForEach(currentGroup.messages) { message in
+                        HStack {
+                            Spacer()
+                            BubbleView(message: message, user: user)
+                        }
+                        .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
+                        .listRowSeparator(.hidden)
                     }
-                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
-                    .listRowSeparator(.hidden)
                 }
             }
-            .listStyle(PlainListStyle())
-            .frame(maxHeight: .infinity)
             
             HStack(spacing: 16) {
                 TextField("Type your message", text: $newMessageText )
+                    .keyboardType(.asciiCapable)
                     .disableAutocorrection(true)
                     .padding(10)
                     .background(Color.gray.opacity(0.2))

@@ -141,11 +141,24 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		1B40F7F12BC245EE00DB1BD2 /* New Group */ = {
+		1B40F7F82BC2653800DB1BD2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1B2CF5B92BAE7B990070F423 /* String.swift */,
 			);
-			path = "New Group";
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1B40F7F92BC2654700DB1BD2 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
+				1B63747A2BBA70EC00FBCB86 /* CurrentUser.swift */,
+				1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */,
+				1B40F7E92BC1E43F00DB1BD2 /* ContactsManager.swift */,
+				1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 		1B63746A2BB7309300FBCB86 /* Views */ = {
@@ -169,17 +182,12 @@
 		1B63746B2BB730CD00FBCB86 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				1B40F7F12BC245EE00DB1BD2 /* New Group */,
+				1B40F7F92BC2654700DB1BD2 /* Core */,
+				1B40F7F82BC2653800DB1BD2 /* Extensions */,
 				1B2CF5EC2BB4BB840070F423 /* Notifications.swift */,
-				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
 				1B2CF5B32BAE6AA50070F423 /* SignalType.swift */,
-				1B2CF5B92BAE7B990070F423 /* String.swift */,
 				1B2CF5EA2BB368A70070F423 /* Queue.swift */,
-				1B63747A2BBA70EC00FBCB86 /* CurrentUser.swift */,
-				1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */,
-				1B40F7E92BC1E43F00DB1BD2 /* ContactsManager.swift */,
 				1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */,
-				1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */,
 			);
 			path = Lib;
 			sourceTree = "<group>";

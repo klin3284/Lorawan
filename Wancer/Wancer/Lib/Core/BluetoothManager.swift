@@ -16,6 +16,8 @@ class BluetoothManager: NSObject, ObservableObject {
     private var databaseManager = DatabaseManager.shared
     private var centralManager: CBCentralManager!
     private var packetString : String = ""
+    private var relayedSignals: [String: Int] = [:]
+    private var relayNum = 3
     
     static let shared = BluetoothManager()
     
@@ -84,6 +86,15 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     func handleMessage(_ decodedMessage: String) {
+        //        if let relay = relayedSignals[decodedMessage] {
+        //            guard relay >= relayNum else {
+        //                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        //                    // Write the message after a delay of 0.5 seconds
+        //                    self.write(value: decodedMessage, characteristic: self.characteristics[0])
+        //                }
+        //                return
+        //            }
+        //        } else {
         switch String(decodedMessage.prefix(5)) {
         case SignalType.MESSAGE_TYPE:
             print("Message")
@@ -94,6 +105,7 @@ class BluetoothManager: NSObject, ObservableObject {
             let senderPhoneNumber = decodedMessage[45..<55]
             let text = decodedMessage[55..<255]
                 .trimmingCharacters(in: .whitespaces)
+            
             
             databaseManager.groups.map{print($0.secret)}
             
@@ -151,26 +163,31 @@ class BluetoothManager: NSObject, ObservableObject {
             if let latitude = Double(latitudeString),
                let longitude = Double(longitudeString),
                let emergencyType = EmergencyType.init(rawValue: type) {
+                let signalKey = "\(name)-\(senderNumber)-\(createdAt)-\(latitude)-\(longitude)-\(text)"
+                
                 if !databaseManager.emergencies.contains(where: { emergency in
                     return
+                    emergency.type == EmergencyType.init(rawValue: type) &&
                     emergency.name == name &&
                     emergency.senderNumber == senderNumber &&
                     emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
                     emergency.latitude == latitude &&
                     emergency.longitude == longitude &&
-                    emergency.text == text}) {
-                    
+                    emergency.text == text
+                }) {
                     databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
-                    
                     databaseManager.getAllEmergencies()
                 }
             }
             break
             
         default:
+            print("Unsupported Signal")
             return
-            
         }
+        //            self.write(value: decodedMessage, characteristic: self.characteristics[0])
+        //            relayedSignals[decodedMessage] = 1
+        return
     }
 }
 

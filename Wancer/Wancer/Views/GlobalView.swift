@@ -10,11 +10,12 @@ import CoreLocation
 
 struct GlobalView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
+    @State private var currentUser = UserManager.shared.retrieveUser()!
     @State private var showCreateEmergency = false
     
     var body: some View {
         NavigationView {
-            List(databaseManager.emergencies ) { emergency in
+            List(databaseManager.emergencies.filter{$0.senderNumber != currentUser.phoneNumber }) { emergency in
                 EmergencyRow(emergency: emergency)
             }
             .navigationBarTitle("Emergencies")
@@ -60,7 +61,7 @@ struct EmergencyRow: View {
             Text(emergency.text)
                 .font(.subheadline)
                 .foregroundColor(.gray)
-
+            
         }
     }
 }
