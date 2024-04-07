@@ -121,13 +121,16 @@ class BluetoothManager: NSObject, ObservableObject {
             let senderPhoneNumber = decodedMessage[125..<135]
             
             if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
-               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
-                for phoneNumber in groupMembersPhoneNumbers {
-                    if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
-                        databaseManager.insertUserGroup(member.id, groupId)
-                    } else {
-                        if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
-                            databaseManager.insertUserGroup(newUserId, groupId)
+               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber),
+                let currentUser = UserManager.shared.retrieveUser() {
+                if groupMembersPhoneNumbers.contains(currentUser.phoneNumber) {
+                    for phoneNumber in groupMembersPhoneNumbers {
+                        if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
+                            databaseManager.insertUserGroup(member.id, groupId)
+                        } else {
+                            if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
+                                databaseManager.insertUserGroup(newUserId, groupId)
+                            }
                         }
                     }
                 }
