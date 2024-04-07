@@ -6,16 +6,14 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct MessagesView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var groups: [Group]
+    @EnvironmentObject var databaseManager: DatabaseManager
     @State private var isCreatingGroup = false
     @State private var isAcceptingGroup = false
     
     private var sortedGroups: [Group] {
-        groups.sorted { group1, group2 in
+        databaseManager.groups.sorted { group1, group2 in
             guard let lastMessage1 = group1.messages.last,
                   let lastMessage2 = group2.messages.last else {
                 return false
@@ -32,21 +30,37 @@ struct MessagesView: View {
                     GroupRowView(group: group)
                 }
                 .swipeActions(allowsFullSwipe: true) {
-                        Button(role: .destructive, action: {
-                            deleteGroup(group)
-                        }) {
-                            Label("Delete", systemImage: "trash")
-                        }
+                    Button(role: .destructive, action: {
+                        let rowDeleted = databaseManager.deleteGroup(group.id)
+                        print(rowDeleted == 1)
+                    }) {
+                        Label("Delete", systemImage: "trash")
                     }
+                }
             }
-            .navigationBarTitle("Messages", displayMode: .inline)
+            .navigationBarTitle("Messages")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack {
-                        Button(action: {
-                            self.isAcceptingGroup = true
-                        }) {
-                            Image(systemName: "envelope")
+                        ZStack {
+                            Button(action: {
+                                self.isAcceptingGroup = true
+                            }) {
+                                Image(systemName: "envelope")
+                            }
+                            
+                            let inviteCount = databaseManager.groups.filter{$0.acceptedAt == nil}.count
+                            if inviteCount > 0 {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.red)
+                                        .frame(width: 14, height: 14)
+                                    Text("\(inviteCount)")
+                                        .font(.system(size: 10, weight: .semibold))
+                                        .foregroundColor(.white)
+                                }
+                                .offset(x: 15, y: 10)
+                            }
                         }
                         Button(action: {
                             self.isCreatingGroup = true
@@ -64,15 +78,6 @@ struct MessagesView: View {
                 
             }
         }
-    }
-    
-    private func deleteGroup(_ group: Group) {
-        guard UserManager.shared.retrieveUser() != nil else {
-            print("Current user not found")
-            return
-        }
-        
-        modelContext.delete(group)
     }
 }
 

@@ -6,31 +6,11 @@
 //
 
 import SwiftUI
-import SwiftData
-
-let gBluetoothManager = BluetoothManager()
 
 struct BleConnectionView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Environment(\.presentationMode) var presentationMode
-    
-    var bluetoothManager: BluetoothManager
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     @State private var isShowingMeContactView = false
     @State private var showingAlert = false
-    @Query private var users: [User]
-    @Query private var groups: [Group]
-    
-    init() {
-        self.bluetoothManager = gBluetoothManager
-    }
-    
-    func fetchUserFromId(_ userId: Int) -> User? {
-        return users.first(where: {$0.id == userId})
-    }
-    
-    func fetchGroupFromId(_ groupId: String) -> Group? {
-        return  groups.first(where: {$0.id == groupId})
-    }
     
     var body: some View {
         NavigationStack {
@@ -64,6 +44,10 @@ struct BleConnectionView: View {
                         }) {
                             Text(peripheral.name ?? "Unknown")
                         }
+                    }
+                    .refreshable {
+                        bluetoothManager.discoveredPeripherals.removeAll()
+                        bluetoothManager.startScan()
                     }
                     
                     Text("Not Connected")

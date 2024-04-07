@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct PendingGroupView: View {
+    @EnvironmentObject var databaseManager: DatabaseManager
     @Binding var isPresented: Bool
-    @Query private var groups: [Group]
     @State private var showAssignGroupName = false
     @State private var groupName = ""
     @State private var selectedGroup: Group?
@@ -25,10 +24,11 @@ struct PendingGroupView: View {
                 .font(.headline)
                 .padding()
             
-            List(groups.filter{ $0.acceptedAt == nil }) { group in
+            List(databaseManager.groups.filter{ $0.acceptedAt == nil }) { group in
                 HStack {
-                    Text("Pending Response to Join Groupchat").bold()
-                    Text(group.users?.map{ $0.firstName }.joined(separator: ", ") ?? "Unknown Members")
+                    VStack {
+                        Text(databaseManager.getUsersByGroupId(group.id).map{ $0.firstName }.joined(separator: ", "))
+                    }
                     Spacer()
                     Button(action: {
                         selectedGroup = group
@@ -52,8 +52,9 @@ struct PendingGroupView: View {
             }
             Button("OK") {
                 if let selectedGroup = selectedGroup {
-                    selectedGroup.acceptInvitation()
-                    selectedGroup.setName(groupName)
+                    databaseManager.updateGroupAccepted(selectedGroup.id, Date())
+                    databaseManager.updateGroupName(selectedGroup.id, groupName)
+                    databaseManager.getAllGroups()
                     isPresented = false
                 }
             }.disabled(groupName.count == 0)

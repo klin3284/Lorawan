@@ -2,23 +2,23 @@ import SwiftUI
 import SwiftData
 
 struct ChatView: View {
-    @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var databaseManager: DatabaseManager
+    @EnvironmentObject var bluetoothManager: BluetoothManager
     @State private var userManager = UserManager.shared
     @State var user = UserManager.shared.retrieveUser()!
     @State private var newMessageText = ""
-    var bluetoothManager: BluetoothManager
+    @State private var groupMembers: [User] = []
     
     private var currentGroup: Group
     
     init(group: Group) {
-        self.bluetoothManager = gBluetoothManager
         self.currentGroup = group
     }
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(currentGroup.id)
-            Text(currentGroup.users?.map{$0.firstName}.joined(separator: " ") ?? "Bad")
+            Text(currentGroup.secret)
+            Text(groupMembers.map{$0.firstName}.joined(separator: " "))
             List {
                 ForEach(currentGroup.messages) { message in
                     HStack {
@@ -47,20 +47,40 @@ struct ChatView: View {
                 }
             }
         }
+        .onAppear() {
+            self.groupMembers = databaseManager.getUsersByGroupId(currentGroup.id)
+        }
         .navigationTitle(currentGroup.name)
         .padding()
     }
     
     private func sendMessage() {
         if newMessageText != "" {
-            print(currentGroup.messages.count)
-            let newMessage = Message(id: currentGroup.messages.count, text: newMessageText, createdAt: Date(), author: user, seen: false, group: nil)
-            currentGroup.addMessage(newMessage)
-            if let messageSignal = newMessage.buildString() {
-                bluetoothManager.write(value: messageSignal, characteristic: bluetoothManager.characteristics[0])
-            } else {
-                print("Could not build string for signal")
+            let chunks = stride(from: 0, to: currentGroup.secret.count, by: 4).map { index in
+                let startIndex = currentGroup.secret.index(currentGroup.secret.startIndex,
+                                                           offsetBy: index)
+                let endIndex = currentGroup.secret.index(startIndex, offsetBy: 4,
+                                                         limitedBy: currentGroup.secret.endIndex) ?? currentGroup.secret.endIndex
+                return String(currentGroup.secret[startIndex..<endIndex])
             }
+            
+            guard let position = chunks.firstIndex(of: String(user.phoneNumber.suffix(4))) else {
+                print("User not found in the group")
+                return
+            }
+            let messageSecret = String(databaseManager.getMessageCountByUser(user.id, currentGroup.id) + (position * 100_000))
+            print(messageSecret)
+            if let messageId = databaseManager.insertMessage(user.id, currentGroup.id, newMessageText, Date(), messageSecret) {
+                databaseManager.getAllGroups()
+                
+                if let messageSignal = databaseManager.getMessageById(messageId) {
+                    bluetoothManager.write(value: messageSignal.buildString(currentGroup.secret, user.phoneNumber), characteristic: bluetoothManager.characteristics[0])
+                } else {
+                    print("Could not build string for signal")
+                }
+            }
+            
+            databaseManager.getAllGroups()
             newMessageText = ""
         }
     }
@@ -68,15 +88,16 @@ struct ChatView: View {
 
 struct BubbleView: View {
     let message: Message
-    let user: User
+    @State var user = UserManager.shared.retrieveUser()!
     
     var body: some View {
+        // TODO: Fix
         Text(message.text)
             .padding()
-            .background(message.author == user ? Color.blue : Color.gray.opacity(0.4))
-            .foregroundColor(message.author == user ? .white : .black)
+            .background(message.userId == user.id ? Color.blue : Color.gray.opacity(0.4))
+            .foregroundColor(message.userId == user.id ? .white : .black)
             .cornerRadius(10)
             .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: message.author == user ? .trailing : .leading)
+            .frame(maxWidth: .infinity, alignment: message.userId == user.id ? .trailing : .leading)
     }
 }
