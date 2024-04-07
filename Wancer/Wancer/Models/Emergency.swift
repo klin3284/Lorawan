@@ -7,28 +7,28 @@
 
 import SwiftUI
 
-class Emergency {
+class Emergency: Identifiable {
     var id: Int64
     var name: String
     var senderNumber: String
     var createdAt: Date
-    var location: String
+    var latitude: Double
+    var longitude: Double
     var text: String
     
-    init(id: Int64, name: String, senderNumber: String, createdAt: Date, location: String, text: String) {
+    init(id: Int64, name: String, senderNumber: String, createdAt: Date, latitude: Double, longitude: Double, text: String) {
         self.id = id
         self.name = name
         self.senderNumber = senderNumber
         self.createdAt = createdAt
-        self.location = location
+        self.latitude = latitude
+        self.longitude = longitude
         self.text = text
     }
     
     func buildString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let createdAtToString = dateFormatter.string(from: createdAt)
+        let createdAtToString = DateFormatter.standard.string(from: createdAt)
         
-        return signalStringBuilder(prefix: Constants.SOS_TYPE, fields: [(name, 30), (senderNumber, 10), (createdAtToString, 20), (location, 20), (text, 170)])
+        return signalStringBuilder(prefix: Constants.SOS_TYPE, fields: [(name, 30), (senderNumber, 10), (createdAtToString, 20), (String(latitude), 8), (String(longitude), 8), ("", 4), (text, 170)])
     }
 }
