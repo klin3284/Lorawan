@@ -91,11 +91,10 @@ struct BubbleView: View {
     @State var user = UserManager.shared.retrieveUser()!
     
     var body: some View {
-        // TODO: Fix
         Text(message.text)
             .padding()
             .background(message.userId == user.id ? Color.blue : Color.gray.opacity(0.4))
-            .foregroundColor(message.userId == user.id ? .white : .black)
+            .foregroundColor(.white)
             .cornerRadius(10)
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: message.userId == user.id ? .trailing : .leading)

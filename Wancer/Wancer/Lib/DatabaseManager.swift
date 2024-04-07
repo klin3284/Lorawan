@@ -12,6 +12,7 @@ class DatabaseManager: ObservableObject {
     @Published var users: [User] = []
     @Published var groups: [Group] = []
     @Published var messages: [Message] = []
+    @Published var emergencies: [Emergency] = []
     
     static let DIR_TASK_DB = "WancerDB"
     static let STORE_NAME = "wancer.sqlite3"
@@ -32,6 +33,9 @@ class DatabaseManager: ObservableObject {
     private let secret = Expression<String>("secret")
     private let acceptedAt = Expression<String?>("acceptedAt")
     private let createdAt = Expression<Date>("createdAt")
+    private let longitude = Expression<Double>("longitude")
+    private let latitude = Expression<Double>("latitude")
+    private let type = Expression<String>("type")
     
     static let shared = DatabaseManager()
     
@@ -93,6 +97,16 @@ class DatabaseManager: ObservableObject {
                 table.foreignKey(groupId, references: groupsTable, id, delete: .setNull)
             })
             
+            try db.run(emergencysTable.create(ifNotExists: true) { table in
+                table.column(id, primaryKey: .autoincrement)
+                table.column(type)
+                table.column(name)
+                table.column(phoneNumber)
+                table.column(createdAt)
+                table.column(latitude)
+                table.column(longitude)
+                table.column(text)
+            })
         } catch {
             print(error)
         }
@@ -149,6 +163,28 @@ class DatabaseManager: ObservableObject {
         }
     }
     
+    func insertEmergency(type: EmergencyType, name: String, phoneNumber: String, latitude: Double, longitude: Double, text: String) -> Int64? {
+        guard let db = database else { return nil }
+        
+        let insert = emergencysTable.insert(
+            self.type <- type.code,
+            self.name <- name,
+            self.phoneNumber <- phoneNumber,
+            self.createdAt <- Date(),
+            self.latitude <- latitude,
+            self.longitude <- longitude,
+            self.text <- text)
+        
+        do {
+            let rowId = try db.run(insert)
+            return rowId
+            
+        } catch {
+            print("Error inserting emergency: \(error)")
+            return nil
+        }
+    }
+    
     func getMessageCountByUser(_ userId: Int64, _ groupId: Int64) -> Int {
         guard let db = database else { return 0 }
         
@@ -164,7 +200,6 @@ class DatabaseManager: ObservableObject {
         guard let db = database else { return nil }
         
         do {
-           // let secretRow = String(secret + Int64(try db.scalar(messagesTable.filter(self.groupId == groupId && self.userId == userId).count)))
             let insert = messagesTable.insert(self.userId <- userId,
                                               self.groupId <- groupId,
                                               self.text <- text,
@@ -178,6 +213,8 @@ class DatabaseManager: ObservableObject {
             return nil
         }
     }
+    
+    
     
     func insertUserGroup(_ userId: Int64, _ groupId: Int64) -> Int64? {
         guard let db = database else { return nil }
@@ -223,6 +260,7 @@ class DatabaseManager: ObservableObject {
     func fetchAll() {
         getAllUsers()
         getAllGroups()
+        getAllEmergencies()
     }
     
     func getAllUsers() {
@@ -235,9 +273,7 @@ class DatabaseManager: ObservableObject {
                 fetchedUsers.append(User(id: user[id],
                                          firstName: user[firstName],
                                          lastName: user[lastName],
-                                         phoneNumber: user[phoneNumber]))
-            }
-            
+                                         phoneNumber: user[phoneNumber]))}
             users = fetchedUsers
         } catch {
             print("Error fetching users: \(error)")
@@ -271,12 +307,31 @@ class DatabaseManager: ObservableObject {
                                      secret: group[secret],
                                      messages: messagesForGroup) // Assign fetched messages
                 
-                fetchedGroups.append(newGroup)
-            }
+                fetchedGroups.append(newGroup)}
             
             groups = fetchedGroups
         } catch {
             print("Error fetching groups: \(error)")
+        }
+    }
+    
+    func getAllEmergencies() {
+        guard let db = database else { return }
+        
+        var fetchedEmergencies: [Emergency] = []
+        do {
+            for emergency in try db.prepare(self.emergencysTable) {
+                fetchedEmergencies.append(Emergency(id: emergency[id],
+                                                    type: EmergencyType.init(rawValue: emergency[type]) ?? EmergencyType.OTHER,
+                                                    name: emergency[name],
+                                                    senderNumber: emergency[phoneNumber],
+                                                    createdAt: emergency[createdAt],
+                                                    latitude: emergency[latitude],
+                                                    longitude: emergency[longitude],
+                                                    text: emergency[text]))}
+            emergencies = fetchedEmergencies
+        } catch {
+            print("Error getting emergencies: \(error)")
         }
     }
     

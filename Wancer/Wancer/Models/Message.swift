@@ -26,6 +26,6 @@ struct Message: Identifiable {
     }
     
     func buildString(_ groupSecret: String, _ authorPhoneNumber: String) -> String {
-        return signalStringBuilder(prefix: Constants.MESSAGE_TYPE, fields: [(groupSecret, 20), (secret, 20), (authorPhoneNumber,  10), (text, 200)])
+        return signalStringBuilder(prefix: SignalType.MESSAGE_TYPE, fields: [(groupSecret, 20), (secret, 20), (authorPhoneNumber,  10), (text, 200)])
     }
 }

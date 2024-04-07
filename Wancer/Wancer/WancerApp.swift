@@ -11,12 +11,14 @@ import SwiftUI
 struct WancerApp: App {
     @StateObject private var databaseManager = DatabaseManager.shared
     @StateObject private var bluetoothManager = BluetoothManager.shared
+    @StateObject private var locationManager = LocationManager.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(databaseManager)
                 .environmentObject(bluetoothManager)
+                .environmentObject(locationManager)
         }
     }
 }
