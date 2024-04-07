@@ -31,6 +31,7 @@ struct ContactButton: View {
 
 struct ContactsView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
+    @State private var currentUser = UserManager.shared.retrieveUser()!
     @State private var contactsManager = ContactsManager.shared
     @State private var isContactsFetched = false
     @State private var isLoading = false
@@ -58,6 +59,13 @@ struct ContactsView: View {
                 }
                 .navigationBarTitle("Contacts")
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        ZStack {
+                            ContactButton(user: currentUser)
+                                .hidden()
+                            Image(systemName: "person.circle.fill")
+                        }
+                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             isLoading = true

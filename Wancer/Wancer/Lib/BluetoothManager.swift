@@ -140,11 +140,13 @@ class BluetoothManager: NSObject, ObservableObject {
             
             let type = decodedMessage[5..<10]
             let name = decodedMessage[10..<40]
+                .trimmingCharacters(in: .whitespaces)
             let senderNumber = decodedMessage[40..<50]
             let createdAt = decodedMessage[50..<70]
             let latitudeString = decodedMessage[70..<78]
             let longitudeString = decodedMessage[78..<86]
             let text = decodedMessage[90..<255]
+                .trimmingCharacters(in: .whitespaces)
             
             if let latitude = Double(latitudeString),
                let longitude = Double(longitudeString),

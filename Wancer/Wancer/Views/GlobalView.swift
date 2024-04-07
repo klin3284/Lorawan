@@ -38,17 +38,29 @@ struct EmergencyRow: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(emergency.name)
-                .font(.headline)
-            Text(emergency.senderNumber)
-            Text(String(emergency.latitude))
-            Text(String(emergency.longitude))
+            HStack(spacing: 30) {
+                Text(emergency.name)
+                    .font(.headline)
+                Text(emergency.senderNumber.toPhoneNumberFormat())
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
+            HStack {
+                Image(systemName: "location")
+                Text(CLLocationCoordinate2D(latitude: emergency.latitude, longitude: emergency.longitude).formattedCoordinate)
+            }
+            HStack(spacing: 15) {
+                Text("Emergency: \(emergency.type.stringValue)")
+                    .font(.subheadline)
+                
+                Text(DateFormatter.standard.string(from: emergency.createdAt))
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
             Text(emergency.text)
                 .font(.subheadline)
                 .foregroundColor(.gray)
-            Text(DateFormatter.standard.string(from: emergency.createdAt))
-                .font(.caption)
-                .foregroundColor(.gray)
+
         }
     }
 }

@@ -36,3 +36,22 @@ extension LocationManager: CLLocationManagerDelegate {
         print("Error getting location: \(error.localizedDescription)")
     }
 }
+
+extension CLLocationCoordinate2D {
+    var formattedCoordinate: String {
+        let latitude = self.latitude
+        let longitude = self.longitude
+        
+        let latitudeDegrees = Int(latitude)
+        let latitudeMinutes = Int((latitude - Double(latitudeDegrees)) * 60)
+        let latitudeSeconds = Int((latitude - Double(latitudeDegrees) - Double(latitudeMinutes) / 60) * 3600)
+        let latitudeCardinalDirection = latitude >= 0 ? "N" : "S"
+        
+        let longitudeDegrees = Int(longitude)
+        let longitudeMinutes = Int((longitude - Double(longitudeDegrees)) * 60)
+        let longitudeSeconds = Int((longitude - Double(longitudeDegrees) - Double(longitudeMinutes) / 60) * 3600)
+        let longitudeCardinalDirection = longitude >= 0 ? "E" : "W"
+        
+        return "\(abs(latitudeDegrees))°\(latitudeMinutes)'\(latitudeSeconds)\" \(latitudeCardinalDirection), \(abs(longitudeDegrees))°\(longitudeMinutes)'\(longitudeSeconds)\" \(longitudeCardinalDirection)"
+    }
+}
