@@ -10,16 +10,21 @@ import CoreLocation
 
 class LocationManager: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
+    private let headingQueue = OperationQueue()
     @Published var location: CLLocationCoordinate2D?
+    @Published var currentHeading: CLHeading?
     
     static var shared = LocationManager()
-
+    
     override init() {
         super.init()
         locationManager.delegate = self
         requestLocation()
+        locationManager.headingFilter = .leastNormalMagnitude
+        locationManager.startUpdatingHeading()
+        locationManager.startUpdatingLocation()
     }
-
+    
     func requestLocation() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
@@ -31,9 +36,15 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         self.location = location.coordinate
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error getting location: \(error.localizedDescription)")
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        headingQueue.addOperation {
+            self.currentHeading = newHeading
+        }
     }
 }
 

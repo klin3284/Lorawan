@@ -133,7 +133,7 @@ struct CreateGroupView: View {
         
         let groupSecret = groupMembers
             .sorted { $0.phoneNumber < $1.phoneNumber }
-            .map { String($0.phoneNumber.suffix(4)) }
+            .map { String($0.phoneNumber.suffix(groupMembers.count <= 5 ? 4 : 2)) }
             .joined()
         
         if databaseManager.groups.contains(where: {$0.secret == groupSecret}) {

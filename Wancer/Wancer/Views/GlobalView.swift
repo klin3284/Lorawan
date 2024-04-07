@@ -15,8 +15,14 @@ struct GlobalView: View {
     
     var body: some View {
         NavigationView {
-            List(databaseManager.emergencies.filter{$0.senderNumber != currentUser.phoneNumber }) { emergency in
-                EmergencyRow(emergency: emergency)
+            VStack{
+                List(databaseManager.emergencies.filter{$0.senderNumber != currentUser.phoneNumber }) { emergency in
+                    EmergencyRow(emergency: emergency)
+                }
+//                HStack {
+//                    CompassView()
+//                    NorthCompassView()
+//                }
             }
             .navigationBarTitle("Emergencies")
             .navigationBarItems(trailing: Button(action: {

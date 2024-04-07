@@ -17,7 +17,7 @@ class BluetoothManager: NSObject, ObservableObject {
     private var centralManager: CBCentralManager!
     private var packetString : String = ""
     private var relayedSignals: [String: Int] = [:]
-    private var relayNum = 3
+    private var relayNum = 1
     
     static let shared = BluetoothManager()
     
@@ -86,108 +86,109 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     func handleMessage(_ decodedMessage: String) {
-        //        if let relay = relayedSignals[decodedMessage] {
-        //            guard relay >= relayNum else {
-        //                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-        //                    // Write the message after a delay of 0.5 seconds
-        //                    self.write(value: decodedMessage, characteristic: self.characteristics[0])
-        //                }
-        //                return
-        //            }
-        //        } else {
-        switch String(decodedMessage.prefix(5)) {
-        case SignalType.MESSAGE_TYPE:
-            print("Message")
-            let groupSecret = decodedMessage[5..<25]
-                .trimmingCharacters(in: .whitespaces)
-            let messageSecret = decodedMessage[25..<45]
-                .trimmingCharacters(in: .whitespaces)
-            let senderPhoneNumber = decodedMessage[45..<55]
-            let text = decodedMessage[55..<255]
-                .trimmingCharacters(in: .whitespaces)
-            
-            
-            databaseManager.groups.map{print($0.secret)}
-            
-            if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
-               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
-                if let messageExist = group.messages.first(where: { $0.secret == messageSecret }) {
-                    print("message already exist")
-                } else {
-                    databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
-                    databaseManager.getAllGroups()
+        if let relay = relayedSignals[decodedMessage] {
+            guard relay >= relayNum else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    // Write the message after a delay of 0.5 seconds
+                    self.write(value: decodedMessage, characteristic: self.characteristics[0])
                 }
+                return
             }
-            else {
-                print("cant find group or sender")
-            }
-            break
-            
-        case SignalType.INVITATION_TYPE:
-            print("Invitation")
-            let groupSecret = decodedMessage[5..<25]
-                .trimmingCharacters(in: .whitespaces)
-            let groupMembersPhoneNumbers = decodedMessage[25..<125]
-                .trimmingCharacters(in: .whitespaces)
-                .splitIntoNCharacterStrings(10)
-            let senderPhoneNumber = decodedMessage[125..<135]
-            
-            if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
-               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
-                for phoneNumber in groupMembersPhoneNumbers {
-                    if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
-                        databaseManager.insertUserGroup(member.id, groupId)
+        } else {
+            switch String(decodedMessage.prefix(5)) {
+            case SignalType.MESSAGE_TYPE:
+                print("Message")
+                let groupSecret = decodedMessage[5..<25]
+                    .trimmingCharacters(in: .whitespaces)
+                let messageSecret = decodedMessage[25..<45]
+                    .trimmingCharacters(in: .whitespaces)
+                let senderPhoneNumber = decodedMessage[45..<55]
+                let text = decodedMessage[55..<255]
+                    .trimmingCharacters(in: .whitespaces)
+                
+                
+                databaseManager.groups.map{print($0.secret)}
+                
+                if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
+                   let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                    if let messageExist = group.messages.first(where: { $0.secret == messageSecret }) {
+                        print("message already exist")
                     } else {
-                        if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
-                            databaseManager.insertUserGroup(newUserId, groupId)
-                        }
+                        databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
+                        databaseManager.getAllGroups()
                     }
                 }
-                databaseManager.fetchAll()
-            }
-            break
-            
-        case SignalType.SOS_TYPE:
-            print("SOS")
-            
-            let type = decodedMessage[5..<10]
-            let name = decodedMessage[10..<40]
-                .trimmingCharacters(in: .whitespaces)
-            let senderNumber = decodedMessage[40..<50]
-            let createdAt = decodedMessage[50..<70]
-            let latitudeString = decodedMessage[70..<78]
-            let longitudeString = decodedMessage[78..<86]
-            let text = decodedMessage[90..<255]
-                .trimmingCharacters(in: .whitespaces)
-            
-            if let latitude = Double(latitudeString),
-               let longitude = Double(longitudeString),
-               let emergencyType = EmergencyType.init(rawValue: type) {
-                let signalKey = "\(name)-\(senderNumber)-\(createdAt)-\(latitude)-\(longitude)-\(text)"
-                
-                if !databaseManager.emergencies.contains(where: { emergency in
-                    return
-                    emergency.type == EmergencyType.init(rawValue: type) &&
-                    emergency.name == name &&
-                    emergency.senderNumber == senderNumber &&
-                    emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
-                    emergency.latitude == latitude &&
-                    emergency.longitude == longitude &&
-                    emergency.text == text
-                }) {
-                    databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
-                    databaseManager.getAllEmergencies()
+                else {
+                    print("cant find group or sender")
                 }
+                break
+                
+            case SignalType.INVITATION_TYPE:
+                print("Invitation")
+                let groupSecret = decodedMessage[5..<25]
+                    .trimmingCharacters(in: .whitespaces)
+                let groupMembersPhoneNumbers = decodedMessage[25..<125]
+                    .trimmingCharacters(in: .whitespaces)
+                    .splitIntoNCharacterStrings(10)
+                let senderPhoneNumber = decodedMessage[125..<135]
+                
+                if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
+                   let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                    for phoneNumber in groupMembersPhoneNumbers {
+                        if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
+                            databaseManager.insertUserGroup(member.id, groupId)
+                        } else {
+                            if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
+                                databaseManager.insertUserGroup(newUserId, groupId)
+                            }
+                        }
+                    }
+                    databaseManager.fetchAll()
+                }
+                break
+                
+            case SignalType.SOS_TYPE:
+                print("SOS")
+                
+                let type = decodedMessage[5..<10]
+                let name = decodedMessage[10..<40]
+                    .trimmingCharacters(in: .whitespaces)
+                let senderNumber = decodedMessage[40..<50]
+                let createdAt = decodedMessage[50..<70]
+                let latitudeString = decodedMessage[70..<78]
+                let longitudeString = decodedMessage[78..<86]
+                let text = decodedMessage[90..<255]
+                    .trimmingCharacters(in: .whitespaces)
+                
+                if let latitude = Double(latitudeString),
+                   let longitude = Double(longitudeString),
+                   let emergencyType = EmergencyType.init(rawValue: type) {
+                    let signalKey = "\(name)-\(senderNumber)-\(createdAt)-\(latitude)-\(longitude)-\(text)"
+                    
+                    if !databaseManager.emergencies.contains(where: { emergency in
+                        return
+                        emergency.type == EmergencyType.init(rawValue: type) &&
+                        emergency.name == name &&
+                        emergency.senderNumber == senderNumber &&
+                        emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
+                        emergency.latitude == latitude &&
+                        emergency.longitude == longitude &&
+                        emergency.text == text
+                    }) {
+                        databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
+                        databaseManager.getAllEmergencies()
+                    }
+                }
+                break
+                
+            default:
+                print("Unsupported Signal")
+                return
             }
-            break
-            
-        default:
-            print("Unsupported Signal")
+            self.write(value: decodedMessage, characteristic: self.characteristics[0])
+            relayedSignals[decodedMessage] = 1
             return
         }
-        //            self.write(value: decodedMessage, characteristic: self.characteristics[0])
-        //            relayedSignals[decodedMessage] = 1
-        return
     }
 }
 

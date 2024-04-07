@@ -22,6 +22,7 @@
 		1B40F7F02BC2439C00DB1BD2 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */; };
 		1B40F7F32BC245FB00DB1BD2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */; };
 		1B40F7F52BC24AE300DB1BD2 /* CreateEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */; };
+		1B40F7FB2BC3159600DB1BD2 /* CompassView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7FA2BC3159600DB1BD2 /* CompassView.swift */; };
 		1B5605642BC0D8CE0061A558 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */; };
 		1B5605672BC0D9BC0061A558 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5605662BC0D9BC0061A558 /* SQLite */; };
 		1B5605692BC0F35C0061A558 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605682BC0F35C0061A558 /* InstructionsView.swift */; };
@@ -67,6 +68,7 @@
 		1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmergencyView.swift; sourceTree = "<group>"; };
+		1B40F7FA2BC3159600DB1BD2 /* CompassView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompassView.swift; sourceTree = "<group>"; };
 		1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		1B5605682BC0F35C0061A558 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B56056A2BC0F37F0061A558 /* BleConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 				1B5605682BC0F35C0061A558 /* InstructionsView.swift */,
 				0B5944DD2BABAB9E004FB729 /* ContactsView.swift */,
 				1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */,
+				1B40F7FA2BC3159600DB1BD2 /* CompassView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,6 +340,7 @@
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
 				1B2CF5B42BAE6AA50070F423 /* SignalType.swift in Sources */,
 				0B5944DE2BABAB9E004FB729 /* ContactsView.swift in Sources */,
+				1B40F7FB2BC3159600DB1BD2 /* CompassView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				1B56056D2BC0F3950061A558 /* MeContactView.swift in Sources */,
@@ -515,10 +519,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = 7Z67F2GBNK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
@@ -538,6 +543,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancerddd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -549,10 +555,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Wancer/Preview Content\"";
-				DEVELOPMENT_TEAM = 7Z67F2GBNK;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
@@ -572,6 +579,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nuios.Wancerddd;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
