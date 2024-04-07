@@ -85,7 +85,7 @@ class BluetoothManager: NSObject, ObservableObject {
     
     func handleMessage(_ decodedMessage: String) {
         switch String(decodedMessage.prefix(5)) {
-        case Constants.MESSAGE_TYPE:
+        case SignalType.MESSAGE_TYPE:
             print("Message")
             let groupSecret = decodedMessage[5..<25]
                 .trimmingCharacters(in: .whitespaces)
@@ -95,26 +95,23 @@ class BluetoothManager: NSObject, ObservableObject {
             let text = decodedMessage[55..<255]
                 .trimmingCharacters(in: .whitespaces)
             
-            print(groupSecret)
-            print(messageSecret)
-            print(senderPhoneNumber)
-            print(text)
-            
             databaseManager.groups.map{print($0.secret)}
             
-            if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}) {
-                if let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+            if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
+               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                if let messageExist = group.messages.first(where: { $0.secret == messageSecret }) {
+                    print("message already exist")
+                } else {
                     databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
                     databaseManager.getAllGroups()
-                } else {
-                    print("cant find or sender")
                 }
-            } else {
-                print("cant find group")
+            }
+            else {
+                print("cant find group or sender")
             }
             break
             
-        case Constants.INVITATION_TYPE:
+        case SignalType.INVITATION_TYPE:
             print("Invitation")
             let groupSecret = decodedMessage[5..<25]
                 .trimmingCharacters(in: .whitespaces)
@@ -136,24 +133,43 @@ class BluetoothManager: NSObject, ObservableObject {
                 }
                 databaseManager.fetchAll()
             }
-            
-            
             break
             
-        case Constants.SOS_TYPE:
+        case SignalType.SOS_TYPE:
             print("SOS")
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            if let dateToString = dateFormatter.date(from: decodedMessage[45..<65]) {
-//                let signal = SosSignal(name: decodedMessage[5..<35], senderNumber: decodedMessage[35..<45], createdAt: dateToString, location: decodedMessage[65..<85], text: decodedMessage[85..<255])
+            
+            let type = decodedMessage[5..<10]
+            let name = decodedMessage[10..<40]
+            let senderNumber = decodedMessage[40..<50]
+            let createdAt = decodedMessage[50..<70]
+            let latitudeString = decodedMessage[70..<78]
+            let longitudeString = decodedMessage[78..<86]
+            let text = decodedMessage[90..<255]
+            
+            if let latitude = Double(latitudeString),
+               let longitude = Double(longitudeString),
+               let emergencyType = EmergencyType.init(rawValue: type) {
+                if !databaseManager.emergencies.contains(where: { emergency in
+                    return
+                    emergency.name == name &&
+                    emergency.senderNumber == senderNumber &&
+                    emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
+                    emergency.latitude == latitude &&
+                    emergency.longitude == longitude &&
+                    emergency.text == text}) {
+                    
+                    databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
+                    
+                    databaseManager.getAllEmergencies()
+                }
             }
             break
             
         default:
             return
+            
         }
     }
-    
 }
 
 extension BluetoothManager: CBCentralManagerDelegate {

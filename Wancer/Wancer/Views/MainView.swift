@@ -29,10 +29,10 @@ struct MainView: View {
                     }
                     .tag(1)
                 
-                SettingsView()
+                GlobalView()
                     .tabItem {
-                        Image(systemName: "gearshape")
-                        Text("Settings")
+                        Image(systemName: "globe")
+                        Text("Setting")
                     }
                     .tag(2)
             }

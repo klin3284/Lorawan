@@ -35,6 +35,7 @@ class DatabaseManager: ObservableObject {
     private let createdAt = Expression<Date>("createdAt")
     private let longitude = Expression<Double>("longitude")
     private let latitude = Expression<Double>("latitude")
+    private let type = Expression<String>("type")
     
     static let shared = DatabaseManager()
     
@@ -98,6 +99,7 @@ class DatabaseManager: ObservableObject {
             
             try db.run(emergencysTable.create(ifNotExists: true) { table in
                 table.column(id, primaryKey: .autoincrement)
+                table.column(type)
                 table.column(name)
                 table.column(phoneNumber)
                 table.column(createdAt)
@@ -161,10 +163,11 @@ class DatabaseManager: ObservableObject {
         }
     }
     
-    func insertEmergency(name: String, phoneNumber: String, latitude: Double, longitude: Double, text: String) -> Int64? {
+    func insertEmergency(type: EmergencyType, name: String, phoneNumber: String, latitude: Double, longitude: Double, text: String) -> Int64? {
         guard let db = database else { return nil }
         
         let insert = emergencysTable.insert(
+            self.type <- type.code,
             self.name <- name,
             self.phoneNumber <- phoneNumber,
             self.createdAt <- Date(),
@@ -319,6 +322,7 @@ class DatabaseManager: ObservableObject {
         do {
             for emergency in try db.prepare(self.emergencysTable) {
                 fetchedEmergencies.append(Emergency(id: emergency[id],
+                                                    type: EmergencyType.init(rawValue: emergency[type]) ?? EmergencyType.OTHER,
                                                     name: emergency[name],
                                                     senderNumber: emergency[phoneNumber],
                                                     createdAt: emergency[createdAt],

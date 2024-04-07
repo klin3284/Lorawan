@@ -6,18 +6,49 @@
 //
 
 import SwiftUI
+import CoreLocation
 
-struct SettingsView: View {
+struct GlobalView: View {
+    @EnvironmentObject var databaseManager: DatabaseManager
+    @State private var showCreateEmergency = false
+    
     var body: some View {
         NavigationView {
-            VStack {
-                
+            List(databaseManager.emergencies ) { emergency in
+                EmergencyRow(emergency: emergency)
             }
-            .navigationBarTitle("Settings")
+            .navigationBarTitle("Emergencies")
+            .navigationBarItems(trailing: Button(action: {
+                showCreateEmergency = true
+            }) {
+                Image(systemName: "plus")
+            })
+            .sheet(isPresented: $showCreateEmergency) {
+                CreateEmergencyView(isPresented: $showCreateEmergency)
+            }
+            .onAppear {
+                databaseManager.getAllEmergencies()
+            }
         }
     }
 }
 
-#Preview {
-    SettingsView()
+struct EmergencyRow: View {
+    @State var emergency: Emergency
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(emergency.name)
+                .font(.headline)
+            Text(emergency.senderNumber)
+            Text(String(emergency.latitude))
+            Text(String(emergency.longitude))
+            Text(emergency.text)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            Text(DateFormatter.standard.string(from: emergency.createdAt))
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+    }
 }

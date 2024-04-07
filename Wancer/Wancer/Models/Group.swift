@@ -26,7 +26,7 @@ struct Group: Identifiable {
     
     func buildString(_ senderNumber: String, _ recipientNumbers: [String]) -> String? {
         if recipientNumbers.count > 1 {
-            return signalStringBuilder(prefix: Constants.INVITATION_TYPE, fields: [(secret, 20), (recipientNumbers.joined(separator: ""), 100), (senderNumber, 10)])
+            return signalStringBuilder(prefix: SignalType.INVITATION_TYPE, fields: [(secret, 20), (recipientNumbers.joined(separator: ""), 100), (senderNumber, 10)])
         }
         return nil
     }

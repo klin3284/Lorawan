@@ -9,10 +9,9 @@
 /* Begin PBXBuildFile section */
 		0B5944DE2BABAB9E004FB729 /* ContactsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5944DD2BABAB9E004FB729 /* ContactsView.swift */; };
 		1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */; };
-		1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* Constants.swift */; };
-		1B2CF5BA2BAE7B990070F423 /* StringUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B92BAE7B990070F423 /* StringUtil.swift */; };
-		1B2CF5CB2BAE9E890070F423 /* SignalsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */; };
-		1B2CF5CD2BAF379C0070F423 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* Constants.swift */; };
+		1B2CF5B42BAE6AA50070F423 /* SignalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* SignalType.swift */; };
+		1B2CF5BA2BAE7B990070F423 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B92BAE7B990070F423 /* String.swift */; };
+		1B2CF5CD2BAF379C0070F423 /* SignalType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5B32BAE6AA50070F423 /* SignalType.swift */; };
 		1B2CF5EB2BB368A70070F423 /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5EA2BB368A70070F423 /* Queue.swift */; };
 		1B2CF5ED2BB4BB840070F423 /* Notifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2CF5EC2BB4BB840070F423 /* Notifications.swift */; };
 		1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B31E65C2BA9231700C5F65B /* WancerApp.swift */; };
@@ -20,13 +19,16 @@
 		1B31E6612BA9231A00C5F65B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1B31E6602BA9231A00C5F65B /* Assets.xcassets */; };
 		1B40F7EA2BC1E43F00DB1BD2 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7E92BC1E43F00DB1BD2 /* ContactsManager.swift */; };
 		1B40F7EE2BC1EEDF00DB1BD2 /* Emergency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7ED2BC1EEDF00DB1BD2 /* Emergency.swift */; };
+		1B40F7F02BC2439C00DB1BD2 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */; };
+		1B40F7F32BC245FB00DB1BD2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */; };
+		1B40F7F52BC24AE300DB1BD2 /* CreateEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */; };
 		1B5605642BC0D8CE0061A558 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */; };
 		1B5605672BC0D9BC0061A558 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5605662BC0D9BC0061A558 /* SQLite */; };
 		1B5605692BC0F35C0061A558 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605682BC0F35C0061A558 /* InstructionsView.swift */; };
 		1B56056B2BC0F37F0061A558 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B56056A2BC0F37F0061A558 /* BleConnectionView.swift */; };
 		1B56056D2BC0F3950061A558 /* MeContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B56056C2BC0F3950061A558 /* MeContactView.swift */; };
 		1B56056F2BC0F4CA0061A558 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B56056E2BC0F4CA0061A558 /* MainView.swift */; };
-		1B5605712BC0F61A0061A558 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605702BC0F61A0061A558 /* SettingsView.swift */; };
+		1B5605712BC0F61A0061A558 /* GlobalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605702BC0F61A0061A558 /* GlobalView.swift */; };
 		1B5605732BC0F6570061A558 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605722BC0F6570061A558 /* MessagesView.swift */; };
 		1B5605752BC0FCB00061A558 /* CreateGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605742BC0FCAF0061A558 /* CreateGroupView.swift */; };
 		1B5605772BC105F70061A558 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605762BC105F70061A558 /* ChatView.swift */; };
@@ -50,9 +52,8 @@
 /* Begin PBXFileReference section */
 		0B5944DD2BABAB9E004FB729 /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
 		1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
-		1B2CF5B32BAE6AA50070F423 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		1B2CF5B92BAE7B990070F423 /* StringUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringUtil.swift; sourceTree = "<group>"; };
-		1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTest.swift; sourceTree = "<group>"; };
+		1B2CF5B32BAE6AA50070F423 /* SignalType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalType.swift; sourceTree = "<group>"; };
+		1B2CF5B92BAE7B990070F423 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		1B2CF5C22BAE9E7F0070F423 /* WancerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WancerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B2CF5EA2BB368A70070F423 /* Queue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		1B2CF5EC2BB4BB840070F423 /* Notifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifications.swift; sourceTree = "<group>"; };
@@ -63,12 +64,15 @@
 		1B31E6632BA9231A00C5F65B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1B40F7E92BC1E43F00DB1BD2 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		1B40F7ED2BC1EEDF00DB1BD2 /* Emergency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Emergency.swift; sourceTree = "<group>"; };
+		1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEmergencyView.swift; sourceTree = "<group>"; };
 		1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		1B5605682BC0F35C0061A558 /* InstructionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionsView.swift; sourceTree = "<group>"; };
 		1B56056A2BC0F37F0061A558 /* BleConnectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleConnectionView.swift; sourceTree = "<group>"; };
 		1B56056C2BC0F3950061A558 /* MeContactView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeContactView.swift; sourceTree = "<group>"; };
 		1B56056E2BC0F4CA0061A558 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		1B5605702BC0F61A0061A558 /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1B5605702BC0F61A0061A558 /* GlobalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalView.swift; sourceTree = "<group>"; };
 		1B5605722BC0F6570061A558 /* MessagesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		1B5605742BC0FCAF0061A558 /* CreateGroupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateGroupView.swift; sourceTree = "<group>"; };
 		1B5605762BC105F70061A558 /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -98,19 +102,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1B2CF5C32BAE9E7F0070F423 /* WancerTests */ = {
-			isa = PBXGroup;
-			children = (
-				1B2CF5BB2BAE9D8A0070F423 /* SignalsTest.swift */,
-			);
-			path = WancerTests;
-			sourceTree = "<group>";
-		};
 		1B31E6502BA9231700C5F65B = {
 			isa = PBXGroup;
 			children = (
 				1B31E65B2BA9231700C5F65B /* Wancer */,
-				1B2CF5C32BAE9E7F0070F423 /* WancerTests */,
 				1B31E65A2BA9231700C5F65B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -146,6 +141,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		1B40F7F12BC245EE00DB1BD2 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		1B63746A2BB7309300FBCB86 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,11 +156,12 @@
 				1B5605742BC0FCAF0061A558 /* CreateGroupView.swift */,
 				1B5605722BC0F6570061A558 /* MessagesView.swift */,
 				1B56056E2BC0F4CA0061A558 /* MainView.swift */,
-				1B5605702BC0F61A0061A558 /* SettingsView.swift */,
+				1B5605702BC0F61A0061A558 /* GlobalView.swift */,
 				1B56056C2BC0F3950061A558 /* MeContactView.swift */,
 				1B56056A2BC0F37F0061A558 /* BleConnectionView.swift */,
 				1B5605682BC0F35C0061A558 /* InstructionsView.swift */,
 				0B5944DD2BABAB9E004FB729 /* ContactsView.swift */,
+				1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -166,14 +169,17 @@
 		1B63746B2BB730CD00FBCB86 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				1B40F7F12BC245EE00DB1BD2 /* New Group */,
 				1B2CF5EC2BB4BB840070F423 /* Notifications.swift */,
 				1B10392C2BAA22D400A60BF1 /* BluetoothManager.swift */,
-				1B2CF5B32BAE6AA50070F423 /* Constants.swift */,
-				1B2CF5B92BAE7B990070F423 /* StringUtil.swift */,
+				1B2CF5B32BAE6AA50070F423 /* SignalType.swift */,
+				1B2CF5B92BAE7B990070F423 /* String.swift */,
 				1B2CF5EA2BB368A70070F423 /* Queue.swift */,
 				1B63747A2BBA70EC00FBCB86 /* CurrentUser.swift */,
 				1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */,
 				1B40F7E92BC1E43F00DB1BD2 /* ContactsManager.swift */,
+				1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */,
+				1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */,
 			);
 			path = Lib;
 			sourceTree = "<group>";
@@ -294,8 +300,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B2CF5CB2BAE9E890070F423 /* SignalsTest.swift in Sources */,
-				1B2CF5CD2BAF379C0070F423 /* Constants.swift in Sources */,
+				1B2CF5CD2BAF379C0070F423 /* SignalType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,6 +310,7 @@
 			files = (
 				1B5605732BC0F6570061A558 /* MessagesView.swift in Sources */,
 				1B56056B2BC0F37F0061A558 /* BleConnectionView.swift in Sources */,
+				1B40F7F52BC24AE300DB1BD2 /* CreateEmergencyView.swift in Sources */,
 				1B56056F2BC0F4CA0061A558 /* MainView.swift in Sources */,
 				1B2CF5ED2BB4BB840070F423 /* Notifications.swift in Sources */,
 				1B5605772BC105F70061A558 /* ChatView.swift in Sources */,
@@ -315,18 +321,20 @@
 				1B40F7EE2BC1EEDF00DB1BD2 /* Emergency.swift in Sources */,
 				1B40F7EA2BC1E43F00DB1BD2 /* ContactsManager.swift in Sources */,
 				1B2CF5EB2BB368A70070F423 /* Queue.swift in Sources */,
+				1B40F7F32BC245FB00DB1BD2 /* LocationManager.swift in Sources */,
 				1B10392D2BAA22D400A60BF1 /* BluetoothManager.swift in Sources */,
 				1B5605792BC11F2B0061A558 /* PendingGroupView.swift in Sources */,
+				1B40F7F02BC2439C00DB1BD2 /* DateFormatter.swift in Sources */,
 				1B5605642BC0D8CE0061A558 /* DatabaseManager.swift in Sources */,
 				4F8264342BAA120D001D13DF /* Group.swift in Sources */,
-				1B2CF5B42BAE6AA50070F423 /* Constants.swift in Sources */,
+				1B2CF5B42BAE6AA50070F423 /* SignalType.swift in Sources */,
 				0B5944DE2BABAB9E004FB729 /* ContactsView.swift in Sources */,
 				1B31E65F2BA9231700C5F65B /* ContentView.swift in Sources */,
 				1B31E65D2BA9231700C5F65B /* WancerApp.swift in Sources */,
 				1B56056D2BC0F3950061A558 /* MeContactView.swift in Sources */,
-				1B2CF5BA2BAE7B990070F423 /* StringUtil.swift in Sources */,
+				1B2CF5BA2BAE7B990070F423 /* String.swift in Sources */,
 				1B63747B2BBA70EC00FBCB86 /* CurrentUser.swift in Sources */,
-				1B5605712BC0F61A0061A558 /* SettingsView.swift in Sources */,
+				1B5605712BC0F61A0061A558 /* GlobalView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,6 +516,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow App to access contacts";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow App to access your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -541,6 +550,7 @@
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Allow App to use Bluetooth";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow App to access contacts";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Allow App to access your location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
