@@ -46,7 +46,6 @@ class BluetoothManager: NSObject, ObservableObject {
             var checkedValue: String = ""
             if value.count < 255 {
                 checkedValue = String(calculateChecksum(value)) + value
-                print("check generated: " + checkedValue)
             }
             let splitString = checkedValue.splitIntoNCharacterStrings(51)
             for part in splitString {
@@ -99,7 +98,7 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     func handleMessage(_ decodedMessage: String) {
-        let messageChecksum = calculateChecksum(decodedMessage)
+        let messageChecksum = calculateChecksum(decodedMessage[1..<255])
         let messageFirstChar = decodedMessage.first ?? " "
         
         if messageFirstChar == messageChecksum {
@@ -193,11 +192,9 @@ class BluetoothManager: NSObject, ObservableObject {
                 
             default:
                 print("Signal is not supported")
-                packetString = ""
                 return
             }
         } else {
-            packetString = ""
             print("Checksum break")
         }
     }
