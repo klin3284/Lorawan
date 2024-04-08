@@ -70,7 +70,7 @@ struct ChatView: View {
             }
             let messageSecret = String(databaseManager.getMessageCountByUser(user.id, currentGroup.id) + (position * 100_000))
             print(messageSecret)
-            if let messageId = databaseManager.insertMessage(user.id, currentGroup.id, newMessageText, Date(), messageSecret) {
+            if let messageId = databaseManager.insertMessage(user.id, currentGroup.id, newMessageText, Date(), messageSecret, nil) {
                 databaseManager.getAllGroups()
                 
                 if let messageSignal = databaseManager.getMessageById(messageId) {
@@ -91,12 +91,21 @@ struct BubbleView: View {
     @State var user = UserManager.shared.retrieveUser()!
     
     var body: some View {
-        Text(message.text)
-            .padding()
-            .background(message.userId == user.id ? Color.blue : Color.gray.opacity(0.4))
-            .foregroundColor(.white)
-            .cornerRadius(10)
-            .fixedSize(horizontal: false, vertical: true)
-            .frame(maxWidth: .infinity, alignment: message.userId == user.id ? .trailing : .leading)
+        VStack {
+            Text(message.text)
+                .padding()
+                .background(message.userId == user.id ? Color.blue : Color.gray.opacity(0.4))
+                .foregroundColor(.white)
+                .cornerRadius(10)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: message.userId == user.id ? .trailing : .leading)
+            if let strength = message.signalStrength {
+                Text(strength)
+                    .font(.system(size: 10))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+            }
+        }
     }
 }

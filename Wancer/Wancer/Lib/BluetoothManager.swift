@@ -94,15 +94,17 @@ class BluetoothManager: NSObject, ObservableObject {
             let senderPhoneNumber = decodedMessage[45..<55]
             let text = decodedMessage[55..<255]
                 .trimmingCharacters(in: .whitespaces)
+            let signalStrength = decodedMessage[255..<259]
+                .trimmingCharacters(in: .whitespaces)
             
-            databaseManager.groups.map{print($0.secret)}
+            print(signalStrength)
             
             if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
                let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
-                if let messageExist = group.messages.first(where: { $0.secret == messageSecret }) {
+                if (group.messages.first(where: { $0.secret == messageSecret }) != nil) {
                     print("message already exist")
                 } else {
-                    databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
+                    databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret, signalStrength)
                     databaseManager.getAllGroups()
                 }
             }
@@ -247,8 +249,8 @@ extension BluetoothManager: CBPeripheralDelegate {
         let decodedMessage = String(decoding: value, as: UTF8.self)
         packetString += decodedMessage
         
-        if(packetString.count >= 255) {
-            self.handleMessage(String(packetString.prefix(255)))
+        if(packetString.count >= 259) {
+            self.handleMessage(String(packetString.prefix(259)))
             packetString = ""
         }
     }
