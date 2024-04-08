@@ -23,7 +23,7 @@ struct ChatView: View {
                 ForEach(currentGroup.messages) { message in
                     HStack {
                         Spacer()
-                        BubbleView(message: message, user: user)
+                        BubbleView(message: message, authorName: groupMembers.first(where: {$0.id == message.userId})?.firstName ?? "Unknown")
                     }
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0))
                     .listRowSeparator(.hidden)
@@ -88,10 +88,18 @@ struct ChatView: View {
 
 struct BubbleView: View {
     let message: Message
+    let authorName: String
     @State var user = UserManager.shared.retrieveUser()!
     
     var body: some View {
         VStack {
+            if message.userId != user.id {
+                Text(authorName)
+                    .font(.system(size: 14, weight: .semibold))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 10)
+            }
             Text(message.text)
                 .padding()
                 .background(message.userId == user.id ? Color.blue : Color.gray.opacity(0.4))
@@ -101,9 +109,9 @@ struct BubbleView: View {
                 .frame(maxWidth: .infinity, alignment: message.userId == user.id ? .trailing : .leading)
             if let strength = message.signalStrength {
                 Text(strength)
-                    .font(.system(size: 10))
+                    .font(.system(size: 8))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(.white)
+                    .foregroundColor(.gray)
                     .padding(.horizontal, 10)
             }
         }
