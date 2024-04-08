@@ -15,14 +15,16 @@ struct Message: Identifiable {
     let text: String
     let createdAt: Date
     let secret: String
+    let signalStrength: String?
     
-    init(id: Int64, userId: Int64, groupId: Int64, text: String, createdAt: Date, secret: String) {
+    init(id: Int64, groupId: Int64, userId: Int64, text: String, createdAt: Date, secret: String, signalStrength: String?) {
         self.id = id
-        self.userId = userId
         self.groupId = groupId
+        self.userId = userId
         self.text = text
         self.createdAt = createdAt
         self.secret = secret
+        self.signalStrength = signalStrength
     }
     
     func buildString(_ groupSecret: String, _ authorPhoneNumber: String) -> String {

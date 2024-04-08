@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct SignalType {
-    static let MESSAGE_TYPE = "11111"
-    static let INVITATION_TYPE = "22222"
-    static let ACCEPTATION_TYPE = "33333"
-    static let DELIVERED_TYPE = "44444"
-    static let NAVIGATION_TYPE = "55555"
-    static let SOS_TYPE = "66666"
+    static let MESSAGE_TYPE = "1111"
+    static let INVITATION_TYPE = "2222"
+    static let ACCEPTATION_TYPE = "3333"
+    static let DELIVERED_TYPE = "4444"
+    static let NAVIGATION_TYPE = "5555"
+    static let SOS_TYPE = "6666"
 }
 
 enum EmergencyType: String, CaseIterable {

@@ -43,13 +43,17 @@ class BluetoothManager: NSObject, ObservableObject {
     
     func write(value: String, characteristic: CBCharacteristic) {
         if ((connectedPeripheral?.canSendWriteWithoutResponse) != nil) {
-            let splitString = value.splitIntoNCharacterStrings(51)
+            var checkedValue: String = ""
+            if value.count < 255 {
+                checkedValue = String(calculateChecksum(value)) + value
+            }
+            let splitString = checkedValue.splitIntoNCharacterStrings(51)
             for part in splitString {
                 if let value = part.data(using: .utf8){
                     self.connectedPeripheral?.writeValue(value, for: characteristic, type: .withoutResponse)
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){}
             }
+            
         }
     }
     
@@ -74,6 +78,16 @@ class BluetoothManager: NSObject, ObservableObject {
         }
     }
     
+    func calculateChecksum(_ input: String) -> Character {
+        var checksum: UInt8 = 0
+        for byte in input.utf8 {
+            checksum = checksum &+ byte
+        }
+        let asciiValue = UInt8(checksum) % 128
+        return Character(UnicodeScalar(asciiValue))
+    }
+    
+    
     func toggleBluetooth() {
         if centralManager.state == .poweredOn {
             centralManager.stopScan()
@@ -84,95 +98,104 @@ class BluetoothManager: NSObject, ObservableObject {
     }
     
     func handleMessage(_ decodedMessage: String) {
-        switch String(decodedMessage.prefix(5)) {
-        case SignalType.MESSAGE_TYPE:
-            print("Message")
-            let groupSecret = decodedMessage[5..<25]
-                .trimmingCharacters(in: .whitespaces)
-            let messageSecret = decodedMessage[25..<45]
-                .trimmingCharacters(in: .whitespaces)
-            let senderPhoneNumber = decodedMessage[45..<55]
-            let text = decodedMessage[55..<255]
-                .trimmingCharacters(in: .whitespaces)
-            
-            databaseManager.groups.map{print($0.secret)}
-            
-            if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
-               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
-                if let messageExist = group.messages.first(where: { $0.secret == messageSecret }) {
-                    print("message already exist")
-                } else {
-                    databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret)
-                    databaseManager.getAllGroups()
+        let messageChecksum = calculateChecksum(decodedMessage[1..<255])
+        let messageFirstChar = decodedMessage.first ?? " "
+        
+        if messageFirstChar == messageChecksum {
+            print("Checksum passed")
+            switch(decodedMessage[1..<5]) {
+            case SignalType.MESSAGE_TYPE:
+                print("Message")
+                let groupSecret = decodedMessage[5..<25]
+                    .trimmingCharacters(in: .whitespaces)
+                let messageSecret = decodedMessage[25..<45]
+                    .trimmingCharacters(in: .whitespaces)
+                let senderPhoneNumber = decodedMessage[45..<55]
+                let text = decodedMessage[55..<255]
+                    .trimmingCharacters(in: .whitespaces)
+                let signalStrength = decodedMessage[255..<259]
+                    .trimmingCharacters(in: .whitespaces)
+                
+                print(signalStrength)
+                
+                if let group = databaseManager.groups.first(where: {$0.secret == groupSecret}),
+                   let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber) {
+                    if (group.messages.first(where: { $0.secret == messageSecret }) != nil) {
+                        print("message already exist")
+                    } else {
+                        databaseManager.insertMessage(senderUser.id, group.id, text, Date(), messageSecret, signalStrength)
+                        databaseManager.getAllGroups()
+                    }
                 }
-            }
-            else {
-                print("cant find group or sender")
-            }
-            break
-            
-        case SignalType.INVITATION_TYPE:
-            print("Invitation")
-            let groupSecret = decodedMessage[5..<25]
-                .trimmingCharacters(in: .whitespaces)
-            let groupMembersPhoneNumbers = decodedMessage[25..<125]
-                .trimmingCharacters(in: .whitespaces)
-                .splitIntoNCharacterStrings(10)
-            let senderPhoneNumber = decodedMessage[125..<135]
-            
-            if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
-               let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber),
-                let currentUser = UserManager.shared.retrieveUser() {
-                if groupMembersPhoneNumbers.contains(currentUser.phoneNumber) {
-                    for phoneNumber in groupMembersPhoneNumbers {
-                        if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
-                            databaseManager.insertUserGroup(member.id, groupId)
-                        } else {
-                            if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
-                                databaseManager.insertUserGroup(newUserId, groupId)
+                else {
+                    print("cant find group or sender")
+                }
+                break
+                
+            case SignalType.INVITATION_TYPE:
+                print("Invitation")
+                let groupSecret = decodedMessage[5..<25]
+                    .trimmingCharacters(in: .whitespaces)
+                let groupMembersPhoneNumbers = decodedMessage[25..<125]
+                    .trimmingCharacters(in: .whitespaces)
+                    .splitIntoNCharacterStrings(10)
+                let senderPhoneNumber = decodedMessage[125..<135]
+                
+                if let groupId = databaseManager.insertGroupNotAccepted(groupSecret),
+                   let senderUser = databaseManager.getUserByPhoneNumber(senderPhoneNumber),
+                   let currentUser = UserManager.shared.retrieveUser() {
+                    if groupMembersPhoneNumbers.contains(currentUser.phoneNumber) {
+                        for phoneNumber in groupMembersPhoneNumbers {
+                            if let member = databaseManager.getUserByPhoneNumber(phoneNumber) {
+                                databaseManager.insertUserGroup(member.id, groupId)
+                            } else {
+                                if let newUserId = databaseManager.insertUser("Unknown", "Contact", phoneNumber) {
+                                    databaseManager.insertUserGroup(newUserId, groupId)
+                                }
                             }
                         }
                     }
+                    databaseManager.fetchAll()
                 }
-                databaseManager.fetchAll()
-            }
-            break
-            
-        case SignalType.SOS_TYPE:
-            print("SOS")
-            
-            let type = decodedMessage[5..<10]
-            let name = decodedMessage[10..<40]
-                .trimmingCharacters(in: .whitespaces)
-            let senderNumber = decodedMessage[40..<50]
-            let createdAt = decodedMessage[50..<70]
-            let latitudeString = decodedMessage[70..<78]
-            let longitudeString = decodedMessage[78..<86]
-            let text = decodedMessage[90..<255]
-                .trimmingCharacters(in: .whitespaces)
-            
-            if let latitude = Double(latitudeString),
-               let longitude = Double(longitudeString),
-               let emergencyType = EmergencyType.init(rawValue: type) {
-                if !databaseManager.emergencies.contains(where: { emergency in
-                    return
-                    emergency.name == name &&
-                    emergency.senderNumber == senderNumber &&
-                    emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
-                    emergency.latitude == latitude &&
-                    emergency.longitude == longitude &&
-                    emergency.text == text}) {
-                    
-                    databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
-                    
-                    databaseManager.getAllEmergencies()
+                break
+                
+            case SignalType.SOS_TYPE:
+                print("SOS")
+                
+                let type = decodedMessage[5..<10]
+                let name = decodedMessage[10..<40]
+                    .trimmingCharacters(in: .whitespaces)
+                let senderNumber = decodedMessage[40..<50]
+                let createdAt = decodedMessage[50..<70]
+                let latitudeString = decodedMessage[70..<78]
+                let longitudeString = decodedMessage[78..<86]
+                let text = decodedMessage[90..<255]
+                    .trimmingCharacters(in: .whitespaces)
+                
+                if let latitude = Double(latitudeString),
+                   let longitude = Double(longitudeString),
+                   let emergencyType = EmergencyType.init(rawValue: type) {
+                    if !databaseManager.emergencies.contains(where: { emergency in
+                        return emergency.name == name &&
+                        emergency.senderNumber == senderNumber &&
+                        emergency.createdAt == DateFormatter.standard.date(from: createdAt) &&
+                        emergency.latitude == latitude &&
+                        emergency.longitude == longitude &&
+                        emergency.text == text}) {
+                        
+                        databaseManager.insertEmergency(type: emergencyType, name: name, phoneNumber: senderNumber, latitude: latitude, longitude: longitude, text: text)
+                        
+                        databaseManager.getAllEmergencies()
+                    }
                 }
+                break
+                
+            default:
+                print("Signal is not supported")
+                return
             }
-            break
-            
-        default:
-            return
-            
+        } else {
+            print("Checksum break")
         }
     }
 }
@@ -247,8 +270,8 @@ extension BluetoothManager: CBPeripheralDelegate {
         let decodedMessage = String(decoding: value, as: UTF8.self)
         packetString += decodedMessage
         
-        if(packetString.count >= 255) {
-            self.handleMessage(String(packetString.prefix(255)))
+        if(packetString.count >= 259) {
+            self.handleMessage(String(packetString.prefix(259)))
             packetString = ""
         }
     }

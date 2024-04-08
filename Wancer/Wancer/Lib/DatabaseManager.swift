@@ -36,6 +36,7 @@ class DatabaseManager: ObservableObject {
     private let longitude = Expression<Double>("longitude")
     private let latitude = Expression<Double>("latitude")
     private let type = Expression<String>("type")
+    private let signalStrength = Expression<String?>("signalStrength")
     
     static let shared = DatabaseManager()
     
@@ -94,6 +95,7 @@ class DatabaseManager: ObservableObject {
                 table.column(text)
                 table.column(createdAt)
                 table.column(secret)
+                table.column(signalStrength)
                 table.foreignKey(groupId, references: groupsTable, id, delete: .setNull)
             })
             
@@ -196,7 +198,7 @@ class DatabaseManager: ObservableObject {
         }
     }
     
-    func insertMessage(_ userId: Int64, _ groupId: Int64, _ text: String, _ createdAt: Date, _ secret: String) -> Int64? {
+    func insertMessage(_ userId: Int64, _ groupId: Int64, _ text: String, _ createdAt: Date, _ secret: String, _ signalStrength: String?) -> Int64? {
         guard let db = database else { return nil }
         
         do {
@@ -204,7 +206,8 @@ class DatabaseManager: ObservableObject {
                                               self.groupId <- groupId,
                                               self.text <- text,
                                               self.createdAt <- createdAt,
-                                              self.secret <- secret)
+                                              self.secret <- secret,
+                                              self.signalStrength <- signalStrength)
             
             let rowID = try db.run(insert)
             return rowID
@@ -391,11 +394,12 @@ class DatabaseManager: ObservableObject {
             let query = messagesTable.filter(self.groupId == groupId)
             for message in try db.prepare(query) {
                 let newMessage = Message(id: message[id],
-                                         userId: message[userId],
                                          groupId: groupId,
+                                         userId: message[userId],
                                          text: message[text],
                                          createdAt: message[createdAt],
-                                         secret: message[secret])
+                                         secret: message[secret],
+                                         signalStrength: message[signalStrength])
                 fetchedMessages.append(newMessage)
             }
             
@@ -414,11 +418,11 @@ class DatabaseManager: ObservableObject {
             let query = messagesTable.filter(self.id == messageId)
             for message in try db.prepare(query) {
                 let newMessage = Message(id: messageId,
-                                         userId: message[userId],
-                                         groupId: message[groupId],
+                                         groupId: message[groupId], userId: message[userId],
                                          text: message[text],
                                          createdAt: message[createdAt],
-                                         secret: message[secret])
+                                         secret: message[secret],
+                                         signalStrength: message[signalStrength])
                 fetchedMessage = newMessage
                 break
             }
