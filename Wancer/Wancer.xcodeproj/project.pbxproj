@@ -22,8 +22,8 @@
 		1B40F7F02BC2439C00DB1BD2 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7EF2BC2439C00DB1BD2 /* DateFormatter.swift */; };
 		1B40F7F32BC245FB00DB1BD2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F22BC245FB00DB1BD2 /* LocationManager.swift */; };
 		1B40F7F52BC24AE300DB1BD2 /* CreateEmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B40F7F42BC24AE300DB1BD2 /* CreateEmergencyView.swift */; };
+		1B40F8012BC3A08300DB1BD2 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 1B40F8002BC3A08300DB1BD2 /* SQLite */; };
 		1B5605642BC0D8CE0061A558 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605632BC0D8CE0061A558 /* DatabaseManager.swift */; };
-		1B5605672BC0D9BC0061A558 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 1B5605662BC0D9BC0061A558 /* SQLite */; };
 		1B5605692BC0F35C0061A558 /* InstructionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B5605682BC0F35C0061A558 /* InstructionsView.swift */; };
 		1B56056B2BC0F37F0061A558 /* BleConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B56056A2BC0F37F0061A558 /* BleConnectionView.swift */; };
 		1B56056D2BC0F3950061A558 /* MeContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B56056C2BC0F3950061A558 /* MeContactView.swift */; };
@@ -95,7 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B5605672BC0D9BC0061A558 /* SQLite in Frameworks */,
+				1B40F8012BC3A08300DB1BD2 /* SQLite in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +222,7 @@
 			);
 			name = Wancer;
 			packageProductDependencies = (
-				1B5605662BC0D9BC0061A558 /* SQLite */,
+				1B40F8002BC3A08300DB1BD2 /* SQLite */,
 			);
 			productName = Wancer;
 			productReference = 1B31E6592BA9231700C5F65B /* Wancer.app */;
@@ -257,7 +257,7 @@
 			);
 			mainGroup = 1B31E6502BA9231700C5F65B;
 			packageReferences = (
-				1B5605652BC0D9BC0061A558 /* XCRemoteSwiftPackageReference "SQLite" */,
+				1B40F7FF2BC3A08300DB1BD2 /* XCRemoteSwiftPackageReference "SQLite" */,
 			);
 			productRefGroup = 1B31E65A2BA9231700C5F65B /* Products */;
 			projectDirPath = "";
@@ -595,7 +595,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		1B5605652BC0D9BC0061A558 /* XCRemoteSwiftPackageReference "SQLite" */ = {
+		1B40F7FF2BC3A08300DB1BD2 /* XCRemoteSwiftPackageReference "SQLite" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
 			requirement = {
@@ -606,9 +606,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		1B5605662BC0D9BC0061A558 /* SQLite */ = {
+		1B40F8002BC3A08300DB1BD2 /* SQLite */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1B5605652BC0D9BC0061A558 /* XCRemoteSwiftPackageReference "SQLite" */;
+			package = 1B40F7FF2BC3A08300DB1BD2 /* XCRemoteSwiftPackageReference "SQLite" */;
 			productName = SQLite;
 		};
 /* End XCSwiftPackageProductDependency section */
