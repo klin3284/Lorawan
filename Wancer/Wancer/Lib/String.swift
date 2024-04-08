@@ -36,7 +36,7 @@ public func signalStringBuilder(prefix: String, fields: [(field: String, maxLeng
         rangeMinBound += maxLength
     }
     
-    message = message.padding(toLength: 255, withPad: " ", startingAt: 0)
+    message = message.padding(toLength: 254, withPad: " ", startingAt: 0)
     
     return message
 }
